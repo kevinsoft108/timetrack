@@ -1,0 +1,40 @@
+.table {
+  display: flex;
+  justify-content: center;
+}
+
+.subtable {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.th_date {
+  height: 50px;
+  background-color: rgb(221, 221, 221);
+  padding: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+}
+
+.th_time {
+  padding: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+}
+
+.th_mark {
+  width: 1532px !important;
+  background-color: rgb(221, 221, 221);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+  padding: 16px;
+  display: grid !important;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+}
+
+.th_mark div {
+  border-left: solid black;
+}

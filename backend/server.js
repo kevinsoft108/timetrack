@@ -13,7 +13,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// const timetrackSeed = require('./seeds/timetrackSeed');
+
 app.use('/api/goals', require('./routes/goalRoutes'));
+app.use('/api/timetrack', require('./routes/timetrackRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 
 // Serve frontend
