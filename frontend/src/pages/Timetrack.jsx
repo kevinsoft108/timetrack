@@ -30,27 +30,25 @@ const Timetrack = () => {
         for (let i = 0; i < date.length - 1; i++) {
           let hour = Math.floor((date[i + 1].sum - date[i].sum) / 60);
           let minute = (date[i + 1].sum - date[i].sum) % 60;
-          let percent = 100 * (date[i + 1].sum - date[i].sum) / 1440;
-          let color;
-
+          let value = 100 * (date[i + 1].sum - date[i].sum) / 1440;
+          let color = !(i % 2) ? 'red' : 'green';
           showMsg.push({
-            index: i,
-            from: date[i],
-            to: date[i + 1],
-            duration: {
-              hour: hour,
-              minute: minute
-            },
-            percent: percent,
-            color: color
+            value: value,
+            color: color,
+            data: {
+              duration: {
+                hour: hour,
+                minute: minute
+              },
+              start: date[i],
+              end: date[i + 1]
+            }
           })
         }
         setTimetrack(showMsg);
       })
       .catch(error => console.log(error))
   }, []);
-
-  console.log(timetrack);
 
   return (
     <div>
@@ -73,7 +71,7 @@ const Timetrack = () => {
           />
         </LocalizationProvider>
       </div>
-      <Timetrack_table />
+      <Timetrack_table timetrack={timetrack} />
     </div>
   );
 }

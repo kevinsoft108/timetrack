@@ -6,7 +6,7 @@ import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Timetrack from './pages/Timetrack'
-
+import Landing from './pages/subcomponents/Landing'
 function App() {
   return (
     <>
@@ -15,6 +15,7 @@ function App() {
           <Header />
           <Routes>
             <Route path='/' element={<Dashboard />} />
+            <Route path='/landing' element={<Landing />} />
             <Route path='/timetrack' element={<Timetrack />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
