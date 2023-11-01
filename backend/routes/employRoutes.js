@@ -66,6 +66,7 @@ router.post("/add-employ", (req, res) => {
       new_user.email = req.body.email;
       new_user.password = req.body.password;
       new_user.confirm_password = req.body.confirm_password;
+      // new_user.face = req.body.face;
 
       if (req.body.password != req.body.confirm_password) {
         res.status(200).json({

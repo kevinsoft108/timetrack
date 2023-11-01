@@ -4,7 +4,8 @@ var Schema = mongoose.Schema;
 employSchema = new Schema({
   username: String,
   email: String,
-  password: String
+  password: String,
+  face: String
 }),
   employ = mongoose.model('employ', employSchema);
 

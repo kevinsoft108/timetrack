@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Button, TextField, Dialog, DialogActions, LinearProgress,
   DialogTitle, DialogContent, TableBody, Table,
@@ -7,7 +7,10 @@ import {
 import { Pagination } from '@material-ui/lab';
 import swal from 'sweetalert';
 // import { withRouter } from './utils';
+const axios = require('axios');
+
 const Landing = () => {
+  const [token, setToken] = useState('');
   const [openUserModal, setOpenUserModal] = useState('');
   const [openUserEditModal, setOpenUserEditModal] = useState(false);
   const [id, setId] = useState('');
@@ -18,9 +21,14 @@ const Landing = () => {
   const [fileName, setFileName] = useState('');
   const [search, setSearch] = useState('');
   const [users, setUsers] = useState([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    getUser()
+  }, []);
 
   const handleUserOpen = () => {
     setOpenUserModal(true)
@@ -44,8 +52,33 @@ const Landing = () => {
     setOpenUserEditModal(true)
   }
 
-
-
+  const getUser = () => {
+    setLoading(true);
+    let data = '?';
+    data = `${data}page=${page}`;
+    if (search) {
+      data = `${data}&search=${search}`;
+    }
+    axios.get(`/api/employ/get-employ${data}`, {
+      headers: {
+        'token': token
+      }
+    }).then((res) => {
+      setLoading(false);
+      setUsers(res.data.users);
+      setPages(res.data.pages);
+    }).catch((err) => {
+      swal({
+        text: err.response.data.errorMessage,
+        icon: "error",
+        type: "error"
+      });
+      setLoading(false);
+      setUsers([]);
+      setPages(0)
+    });
+  }
+  console.log(users[0]);
   return (
     <div>
       {loading && <LinearProgress size={40} />}
@@ -222,44 +255,54 @@ const Landing = () => {
               <TableCell align="center">Face</TableCell>
               <TableCell align="center">Operations</TableCell>
             </TableRow>
-            <TableRow>
-              <TableCell align="center" component="th" scope="row">
-                1
-              </TableCell>
-              <TableCell align="center">hello</TableCell>
-              <TableCell align="center">hello@gmail.com</TableCell>
-              <TableCell align="center">img</TableCell>
-              <TableCell align="center">
-                <Button
-                  className="button_style"
-                  variant="outlined"
-                  color="secondary"
-                  size="small"
-                // onClick={(e) => this.handleTrackOpen(row)}
-                >
-                  View
-                </Button>
-                <Button
-                  className="button_style"
-                  variant="outlined"
-                  color="primary"
-                  size="small"
-                  onClick={(e) => handleUserEditOpen()}
-                >
-                  Edit
-                </Button>
-                <Button
-                  className="button_style"
-                  variant="outlined"
-                  color="secondary"
-                  size="small"
-                // onClick={(e) => this.deleteUser(row._id)}
-                >
-                  Delete
-                </Button>
-              </TableCell>
-            </TableRow>
           </TableHead>
+          <TableBody>
+            {
+              users && users.map((row, index) => {
+                return (
+                  <TableRow key={index}>
+                    <TableCell align="center" component="th" scope="row">
+                      {users.indexOf(row) + 1}
+                    </TableCell>
+                    <TableCell align="center">{row.username}</TableCell>
+                    <TableCell align="center">{row.email}</TableCell>
+                    <TableCell align="center">
+                      <img src={row.face} width="70" height="70" />
+                    </TableCell>
+                    <TableCell align="center">
+                      <Button
+                        className="button_style"
+                        variant="outlined"
+                        color="secondary"
+                        size="small"
+                      // onClick={(e) => this.handleTrackOpen(row)}
+                      >
+                        View
+                      </Button>
+                      <Button
+                        className="button_style"
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        onClick={(e) => handleUserEditOpen()}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        className="button_style"
+                        variant="outlined"
+                        color="secondary"
+                        size="small"
+                      // onClick={(e) => this.deleteUser(row._id)}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                )
+              })
+            }
+          </TableBody>
         </Table>
       </TableContainer>
     </div>

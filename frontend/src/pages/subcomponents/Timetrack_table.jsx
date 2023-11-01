@@ -50,8 +50,10 @@ const Timetrack_table = ({ timetrack }) => {
             left: messageLeft,
             width: '200px',
             height: '150px',
-            backgroundColor: 'grey',
-            padding: '20px'
+            backgroundColor: '#FAF0E6',
+            padding: '47px 0px',
+            borderRadius: '30px',
+            color: '#CD5C5C'
           }}
         >
           <div>Time: {messagedata.start.hour}:{messagedata.start.minute} to {messagedata.end.hour}:{messagedata.end.minute}</div>
