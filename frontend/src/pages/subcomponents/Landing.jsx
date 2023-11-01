@@ -48,6 +48,7 @@ const Landing = () => {
 
   return (
     <div>
+      {loading && <LinearProgress size={40} />}
       <div>
         <h2>Dashboard</h2>
         <Button
