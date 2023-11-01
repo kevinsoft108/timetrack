@@ -48,8 +48,13 @@ const Landing = () => {
     setOpenUserEditModal(false)
   }
 
-  const handleUserEditOpen = () => {
-    setOpenUserEditModal(true)
+  const handleUserEditOpen = (data) => {
+    setId(data._id);
+    setUsername(data.username);
+    setEmail(data.email);
+    setPassword(data.password);
+    setConfirm_password(data.password);
+    setOpenUserEditModal(true);
   }
 
   const getUser = () => {
@@ -78,7 +83,43 @@ const Landing = () => {
       setPages(0)
     });
   }
-  console.log(users[0]);
+  const updateUser = () => {
+    axios.post('/api/employ/update-employ', {
+      id: id,
+      username: username,
+      email: email,
+      password: password,
+      confirm_password: confirm_password
+    }, {
+      headers: {
+        'token': token
+      }
+    }).then((res) => {
+
+      swal({
+        text: res.data.title,
+        icon: "success",
+        type: "success"
+      });
+
+      handleUserEditClose();
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      setConfirm_password('');
+      setFile(null);
+      getUser();
+    }).catch((err) => {
+      swal({
+        text: err.response.data.errorMessage,
+        icon: "error",
+        type: "error"
+      });
+      handleUserEditClose();
+    });
+  }
+
+
   return (
     <div>
       {loading && <LinearProgress size={40} />}
@@ -93,14 +134,14 @@ const Landing = () => {
         >
           Add User
         </Button>
-        <Button
+        {/* <Button
           className="button_style"
           variant="contained"
           size="small"
         // onClick={logOut}
         >
           Log Out
-        </Button>
+        </Button> */}
       </div>
 
       {/* Edit User */}
@@ -162,7 +203,7 @@ const Landing = () => {
           </Button>
           <Button
             disabled={username == '' || email == '' || password == '' || confirm_password == ''}
-            // onClick={(e) => this.updateUser()}
+            onClick={(e) => updateUser()}
             color="primary" autoFocus>
             Edit User
           </Button>
@@ -284,7 +325,7 @@ const Landing = () => {
                         variant="outlined"
                         color="primary"
                         size="small"
-                        onClick={(e) => handleUserEditOpen()}
+                        onClick={(e) => handleUserEditOpen(row)}
                       >
                         Edit
                       </Button>

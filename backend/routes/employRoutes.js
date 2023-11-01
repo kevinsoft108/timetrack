@@ -113,6 +113,7 @@ router.post("/add-employ", (req, res) => {
 
 /* Api to update User */
 router.post("/update-employ", (req, res) => {
+  console.log(req.body);
   try {
     if (req.body && req.body.username && req.body.email && req.body.password &&
       req.body.id && req.body.confirm_password) {
