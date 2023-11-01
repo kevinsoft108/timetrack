@@ -1,30 +1,79 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 import axios from 'axios';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
+import Timetrack_table from './subcomponents/Timetrack_table'
 import style from './Timetrack.module.css'
 const Timetrack = () => {
-  const { data, setData } = useState([]);
+  const [timetrack, setTimetrack] = useState(null);
   useEffect(() => {
+    axios.get('/api/timetrack')
+      .then(res => {
+        let date = [];
+        res.data.map(item => {
+          date.push({
+            hour: new Date(item.detect_start).getUTCHours(),
+            minute: new Date(item.detect_start).getUTCMinutes(),
+            sum: new Date(item.detect_start).getUTCHours() * 60 + new Date(item.detect_start).getUTCMinutes(),
+          });
+          date.push({
+            hour: new Date(item.detect_end).getUTCHours(),
+            minute: new Date(item.detect_end).getUTCMinutes(),
+            sum: new Date(item.detect_end).getUTCHours() * 60 + new Date(item.detect_end).getUTCMinutes()
+          });
+        });
+        date.unshift({ hour: 0, minute: 0, sum: 0 });
+        date.push({ hour: 23, minute: 59, sum: 1440 });
+        let showMsg = [];
+        for (let i = 0; i < date.length - 1; i++) {
+          let hour = Math.floor((date[i + 1].sum - date[i].sum) / 60);
+          let minute = (date[i + 1].sum - date[i].sum) % 60;
+          let percent = 100 * (date[i + 1].sum - date[i].sum) / 1440;
+          let color;
 
-  })
+          showMsg.push({
+            index: i,
+            from: date[i],
+            to: date[i + 1],
+            duration: {
+              hour: hour,
+              minute: minute
+            },
+            percent: percent,
+            color: color
+          })
+        }
+        setTimetrack(showMsg);
+      })
+      .catch(error => console.log(error))
+  }, []);
+
+  console.log(timetrack);
+
   return (
     <div>
       <h2>Time Tracking Dashboard</h2>
-      <div className={style.table}>
-        <div className={style.subtable}>
-          <tr >
-            <th className={style.th_date}>Date</th>
-            <th className={style.th_time}>Time</th>
-            <th className={style.th_mark}>
-              <div>00:00</div><div>01:00</div><div>02:00</div><div>03:00</div><div>04:00</div><div>05:00</div><div>06:00</div><div>07:00</div><div>08:00</div><div>09:00</div><div>10:00</div><div>11:00</div><div>12:00</div><div>13:00</div><div>14:00</div><div>15:00</div><div>16:00</div><div>17:00</div><div>18:00</div><div>19:00</div><div>20:00</div><div>21:00</div><div>22:00</div><div>23:00</div>
-            </th>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-          </tr>
-        </div>
+      <div>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="From"
+            name="fromDate"
+            value={dayjs(new Date())}
+            // onChange={this.onChange}
+            onChange={(newValue) => this.setDateValue(newValue, false)}
+          />
+          <DatePicker
+            label="To"
+            name="toDate"
+            value={dayjs(new Date())}
+            // onChange={this.onChange}
+            onChange={(newValue) => this.setDateValue(newValue, true)}
+          />
+        </LocalizationProvider>
       </div>
+      <Timetrack_table />
     </div>
   );
 }

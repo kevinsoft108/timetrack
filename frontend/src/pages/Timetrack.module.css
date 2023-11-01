@@ -34,7 +34,3 @@
   display: grid !important;
   grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
 }
-
-.th_mark div {
-  border-left: solid black;
-}
