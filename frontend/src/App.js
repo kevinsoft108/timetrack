@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Header from './components/Header'
-import Dashboard from './pages/Dashboard'
+// import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Timetrack from './pages/Timetrack'
@@ -14,8 +14,8 @@ function App() {
         <div className='container'>
           <Header />
           <Routes>
-            <Route path='/' element={<Dashboard />} />
-            <Route path='/landing' element={<Landing />} />
+            {/* <Route path='/dashboard' element={<Dashboard />} /> */}
+            <Route path='/' element={<Landing />} />
             <Route path='/timetrack' element={<Timetrack />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />

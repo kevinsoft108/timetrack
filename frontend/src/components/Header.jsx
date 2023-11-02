@@ -17,7 +17,7 @@ function Header() {
   return (
     <header className='header'>
       <div className='logo'>
-        <Link to='/timetrack'>Time track</Link>
+        <Link to='/'>Time track</Link>
       </div>
       <ul>
         {user ? (
@@ -33,11 +33,11 @@ function Header() {
                 <FaSignInAlt /> Login
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link to='/register'>
                 <FaUser /> Register
               </Link>
-            </li>
+            </li> */}
           </>
         )}
       </ul>

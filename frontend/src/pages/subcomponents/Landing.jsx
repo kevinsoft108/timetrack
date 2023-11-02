@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom";
 import {
   Button, TextField, Dialog, DialogActions, LinearProgress,
@@ -11,7 +12,8 @@ import swal from 'sweetalert';
 const axios = require('axios');
 
 const Landing = () => {
-  const navigate = useNavigate();
+
+  // const navigate = useNavigate();
   const [token, setToken] = useState('');
   const [openUserModal, setOpenUserModal] = useState('');
   const [openUserEditModal, setOpenUserEditModal] = useState(false);
@@ -28,9 +30,28 @@ const Landing = () => {
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
 
+  //-------------------------------add Section-----------
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { user } = useSelector((state) => state.auth)
+  const { isError, message } = useSelector(
+    (state) => state.goals
+  )
+
   useEffect(() => {
+    //-------------add Section------------
+    if (isError) {
+      console.log(message)
+    }
+
+    if (!user) {
+      navigate('/login')
+    }
+
     getUser()
-  }, []);
+
+  }, [user, navigate, isError, message, dispatch]);
 
   const handleUserOpen = () => {
     setOpenUserModal(true)
