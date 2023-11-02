@@ -19,6 +19,7 @@ app.use('/api/goals', require('./routes/goalRoutes'));
 app.use('/api/timetrack', require('./routes/timetrackRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/employ', require('./routes/employRoutes'));
+app.use('/api/users', require('./routes/userRoutes'));
 
 // Serve frontend
 if (process.env.NODE_ENV === 'production') {
