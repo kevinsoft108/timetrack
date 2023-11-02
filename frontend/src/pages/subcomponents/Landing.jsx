@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import {
   Button, TextField, Dialog, DialogActions, LinearProgress,
   DialogTitle, DialogContent, TableBody, Table,
@@ -10,6 +11,7 @@ import swal from 'sweetalert';
 const axios = require('axios');
 
 const Landing = () => {
+  const navigate = useNavigate();
   const [token, setToken] = useState('');
   const [openUserModal, setOpenUserModal] = useState('');
   const [openUserEditModal, setOpenUserEditModal] = useState(false);
@@ -56,7 +58,26 @@ const Landing = () => {
     setConfirm_password(data.password);
     setOpenUserEditModal(true);
   }
+  const handleTrackOpen = (subdata) => {
+    console.log(subdata._id);
+    navigate(`/timetrack?_id=${subdata._id}`);
+  }
+  const pageChange = (e, page) => {
+    setPage(page);
+    getUser();
+  }
 
+  const onChange = (e) => {
+    // if (e.target.files && e.target.files[0] && e.target.files[0].name) {
+    //   setFileName(e.target.files[0].name);
+    // }
+    setSearch(e.target.value, () => { });
+    if (e.target.name == 'search') {
+      setPage(1);
+      getUser();
+    }
+  }
+  console.log(search);
   const getUser = () => {
     setLoading(true);
     let data = '?';
@@ -119,6 +140,70 @@ const Landing = () => {
     });
   }
 
+  const addUser = () => {
+    axios.post('/api/employ/add-employ', {
+      username: username,
+      email: email,
+      password: password,
+      confirm_password: confirm_password
+    }, {
+      headers: {
+        'token': token
+      }
+    }).then((res) => {
+
+      swal({
+        text: res.data.title,
+        icon: "success",
+        type: "success"
+      });
+
+      handleUserClose();
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      setConfirm_password('');
+      setFile(null);
+      setPage(1);
+      getUser();
+    }).catch((err) => {
+      swal({
+        text: err.response.data.errorMessage,
+        icon: "error",
+        type: "error"
+      });
+      handleUserClose();
+    });
+  }
+
+  const deleteUser = (id) => {
+    axios.post('/api/employ/delete-employ', {
+      id: id
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'token': token
+      }
+    }).then((res) => {
+
+      swal({
+        text: res.data.title,
+        icon: "success",
+        type: "success"
+      });
+
+      setPage(1);
+      pageChange(null, 1);
+
+    }).catch((err) => {
+      swal({
+        text: err.response.data.errorMessage,
+        icon: "error",
+        type: "error"
+      });
+      handleUserClose();
+    });
+  }
 
   return (
     <div>
@@ -269,7 +354,7 @@ const Landing = () => {
           </Button>
           <Button
             disabled={username == '' || email == '' || password == '' || confirm_password == ''}
-            // onClick={(e) => this.addUser()} 
+            onClick={(e) => addUser()}
             color="primary" autoFocus>
             Add User
           </Button>
@@ -283,7 +368,7 @@ const Landing = () => {
           autoComplete="off"
           name="search"
           value={search}
-          // onChange={this.onChange}
+          onChange={onChange}
           placeholder="Search by name or email"
           required
         />
@@ -316,7 +401,7 @@ const Landing = () => {
                         variant="outlined"
                         color="secondary"
                         size="small"
-                      // onClick={(e) => this.handleTrackOpen(row)}
+                        onClick={(e) => handleTrackOpen(row)}
                       >
                         View
                       </Button>
@@ -334,7 +419,7 @@ const Landing = () => {
                         variant="outlined"
                         color="secondary"
                         size="small"
-                      // onClick={(e) => this.deleteUser(row._id)}
+                        onClick={(e) => deleteUser(row._id)}
                       >
                         Delete
                       </Button>
@@ -345,6 +430,8 @@ const Landing = () => {
             }
           </TableBody>
         </Table>
+        <br />
+        <Pagination count={pages} page={page} onChange={pageChange} color="primary" />
       </TableContainer>
     </div>
   );
