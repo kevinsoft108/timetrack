@@ -5,8 +5,8 @@ const Timetrack = require('../models/timetrackModel');
 const data = [
   {
     userid: '654284925256ce5573ee923f',
-    detect_start: new Date('2023-11-02T07:00:00Z'),
-    detect_end: new Date('2023-11-02T10:30:00Z'),
+    detect_start: new Date('2023-11-02T06:00:00Z'),
+    detect_end: new Date('2023-11-02T11:30:00Z'),
   },
   {
     userid: '654284925256ce5573ee923f',

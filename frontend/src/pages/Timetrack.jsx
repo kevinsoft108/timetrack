@@ -19,7 +19,6 @@ const Timetrack = () => {
   useEffect(() => {
     axios.post('/api/timetrack', { userid: userid })
       .then(res => {
-        console.log(res.data);
         let data = res.data;
         // Object to store the divided arrays
         const dividedData = {};
@@ -40,15 +39,15 @@ const Timetrack = () => {
           dividedData[date].push(item);
         });
 
-        console.log(starttime, endtime);
         function convertArr(start, end) {
           let newArray = [];
           for (let tool in dividedData) {
             if (tool >= start && tool <= end) {
-
-
+              // console.log(dividedData[tool]);
               let date = [];
+              let useTime = 0;
               dividedData[tool].map(item => {
+                useTime += (new Date(item.detect_end).getUTCHours() * 60 + new Date(item.detect_end).getUTCMinutes()) - (new Date(item.detect_start).getUTCHours() * 60 + new Date(item.detect_start).getUTCMinutes());
                 date.push({
                   year: new Date(item.detect_start).getUTCFullYear(),
                   month: new Date(item.detect_start).getUTCMonth() + 1,
@@ -60,7 +59,7 @@ const Timetrack = () => {
                 date.push({
                   year: new Date(item.detect_end).getUTCFullYear(),
                   month: new Date(item.detect_end).getUTCMonth() + 1,
-                  day: new Date(item.detect_end).getUTCDate() + 1,
+                  day: new Date(item.detect_end).getUTCDate(),
                   hour: new Date(item.detect_end).getUTCHours(),
                   minute: new Date(item.detect_end).getUTCMinutes(),
                   sum: new Date(item.detect_end).getUTCHours() * 60 + new Date(item.detect_end).getUTCMinutes()
@@ -68,6 +67,7 @@ const Timetrack = () => {
               });
               date.unshift({ hour: 0, minute: 0, sum: 0 });
               date.push({ hour: 23, minute: 59, sum: 1440 });
+              console.log(date);
               let showMsg = [];
               for (let i = 0; i < date.length - 1; i++) {
                 let hour = Math.floor((date[i + 1].sum - date[i].sum) / 60);
@@ -78,6 +78,8 @@ const Timetrack = () => {
                   value: value,
                   color: color,
                   data: {
+                    useTime: useTime,
+                    time: `${date[1].year}/${date[1].month}/${date[1].day}`,
                     duration: {
                       hour: hour,
                       minute: minute
@@ -87,6 +89,7 @@ const Timetrack = () => {
                   }
                 })
               }
+              console.log(showMsg);
               newArray.push(showMsg);
             }
           }

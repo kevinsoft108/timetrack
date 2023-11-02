@@ -5,8 +5,10 @@ import {
   DialogTitle, DialogContent, TableBody, Table,
   TableContainer, TableHead, TableRow, TableCell
 } from '@material-ui/core';
+
+
 const Timetrack_table = ({ timedata }) => {
-  console.log(timedata);
+
   const [showMessage, setShowMessage] = useState(false);
   const [messageTop, setMessageTop] = useState(0);
   const [messageLeft, setMessageLeft] = useState(0);
@@ -75,14 +77,14 @@ const Timetrack_table = ({ timedata }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {timedata && timedata.map(timetrack => {
+              {timedata && timedata.map((timetrack, index) => {
                 return (
-                  <TableRow key={10 / 27}>
+                  <TableRow key={index}>
                     <TableCell align="center" component="th" scope="row" style={{ zIndex: 1, position: 'sticky', left: 0, backgroundColor: "#ddd", }}>
-                      10/27
+                      {timetrack[0]['data']['time']}
                     </TableCell>
                     <TableCell align="center" component="th" scope="row">
-                      09:50h
+                      {Math.floor(timetrack[0]['data']['useTime'] / 60)}hr{Math.floor(timetrack[0]['data']['useTime'] % 60)}
                     </TableCell>
                     <TableCell id="tablecell">
                       {/* <HSBar data={[{ value: 10 }, { value: 11.89 }, { value: 48.11 }]} onClick={e => alert(e.bar)}></HSBar> */}
