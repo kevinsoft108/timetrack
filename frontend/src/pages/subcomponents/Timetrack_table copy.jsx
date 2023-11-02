@@ -5,14 +5,15 @@ import {
   DialogTitle, DialogContent, TableBody, Table,
   TableContainer, TableHead, TableRow, TableCell
 } from '@material-ui/core';
-const Timetrack_table = ({ timedata }) => {
-  console.log(timedata);
+const Timetrack_table = ({ timetrack }) => {
+
   const [showMessage, setShowMessage] = useState(false);
   const [messageTop, setMessageTop] = useState(0);
   const [messageLeft, setMessageLeft] = useState(0);
   const [messagedata, setMessagedata] = useState('');
   const timelineData = [];
 
+  console.log(timetrack);
   // Using a for loop to cycle from 0 to 24
   for (let i = 0; i <= 23; i++) {
     timelineData.push({
@@ -75,25 +76,20 @@ const Timetrack_table = ({ timedata }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {timedata && timedata.map(timetrack => {
-                return (
-                  <TableRow key={10 / 27}>
-                    <TableCell align="center" component="th" scope="row" style={{ zIndex: 1, position: 'sticky', left: 0, backgroundColor: "#ddd", }}>
-                      10/27
-                    </TableCell>
-                    <TableCell align="center" component="th" scope="row">
-                      09:50h
-                    </TableCell>
-                    <TableCell id="tablecell">
-                      {/* <HSBar data={[{ value: 10 }, { value: 11.89 }, { value: 48.11 }]} onClick={e => alert(e.bar)}></HSBar> */}
-                      {
-                        <HSBar data={timetrack} onClick={showMessagebox}></HSBar>
-                      }
-                    </TableCell>
-                  </TableRow>
-                )
-              })}
-
+              <TableRow key={10 / 27}>
+                <TableCell align="center" component="th" scope="row" style={{ zIndex: 1, position: 'sticky', left: 0, backgroundColor: "#ddd", }}>
+                  10/27
+                </TableCell>
+                <TableCell align="center" component="th" scope="row">
+                  09:50h
+                </TableCell>
+                <TableCell id="tablecell">
+                  {/* <HSBar data={[{ value: 10 }, { value: 11.89 }, { value: 48.11 }]} onClick={e => alert(e.bar)}></HSBar> */}
+                  {
+                    timetrack && <HSBar data={timetrack} onClick={showMessagebox}></HSBar>
+                  }
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
           <br />

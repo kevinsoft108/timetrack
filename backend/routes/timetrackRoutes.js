@@ -6,6 +6,6 @@ const {
 
 const { protect } = require('../middleware/authMiddleware')
 
-router.route('/').get(getTimetrack)
+router.route('/').post(getTimetrack)
 
 module.exports = router

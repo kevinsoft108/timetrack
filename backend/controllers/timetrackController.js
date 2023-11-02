@@ -6,7 +6,7 @@ const Timetrack = require('../models/timetrackModel')
 // @route   GET /api/goals
 // @access  Private
 const getTimetrack = asyncHandler(async (req, res) => {
-  const userId = 'user1';
+  const userId = req.body.userid;
   const timetrack = await Timetrack.find({ userid: userId });
   res.status(200).json(timetrack)
 })

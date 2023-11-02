@@ -4,40 +4,34 @@ const Timetrack = require('../models/timetrackModel');
 // Define the data to be seeded
 const data = [
   {
-    userid: 'user1',
-    detect_start: new Date('2021-09-01T09:00:00Z'),
-    detect_end: new Date('2021-09-01T10:30:00Z'),
-    note: 'First detection'
+    userid: '654284925256ce5573ee923f',
+    detect_start: new Date('2023-11-02T07:00:00Z'),
+    detect_end: new Date('2023-11-02T10:30:00Z'),
   },
   {
-    userid: 'user1',
-    detect_start: new Date('2021-09-01T10:40:00Z'),
-    detect_end: new Date('2021-09-01T12:20:00Z'),
-    note: 'Second detection'
+    userid: '654284925256ce5573ee923f',
+    detect_start: new Date('2023-11-02T10:40:00Z'),
+    detect_end: new Date('2023-11-02T12:20:00Z'),
   },
   {
-    userid: 'user1',
-    detect_start: new Date('2021-09-01T12:25:00Z'),
-    detect_end: new Date('2021-09-01T15:30:00Z'),
-    note: 'First detection'
+    userid: '654284925256ce5573ee923f',
+    detect_start: new Date('2023-11-02T12:25:00Z'),
+    detect_end: new Date('2023-11-02T15:30:00Z'),
   },
   {
-    userid: 'user1',
-    detect_start: new Date('2021-09-01T15:50:00Z'),
-    detect_end: new Date('2021-09-01T16:00:00Z'),
-    note: 'Second detection'
+    userid: '654284925256ce5573ee923f',
+    detect_start: new Date('2023-11-02T15:50:00Z'),
+    detect_end: new Date('2023-11-02T16:00:00Z'),
   },
   {
-    userid: 'user1',
-    detect_start: new Date('2021-09-01T16:40:00Z'),
-    detect_end: new Date('2021-09-01T17:40:00Z'),
-    note: 'First detection'
+    userid: '654284925256ce5573ee923f',
+    detect_start: new Date('2023-11-02T16:40:00Z'),
+    detect_end: new Date('2023-11-02T17:40:00Z'),
   },
   {
-    userid: 'user1',
-    detect_start: new Date('2021-09-01T17:59:00Z'),
-    detect_end: new Date('2021-09-01T18:50:00Z'),
-    note: 'Second detection'
+    userid: '654284925256ce5573ee923f',
+    detect_start: new Date('2023-11-02T17:59:00Z'),
+    detect_end: new Date('2023-11-02T21:50:00Z'),
   }
 ];
 
