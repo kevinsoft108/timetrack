@@ -11,8 +11,10 @@ const Timetrack = () => {
 
   const [timetrack, setTimetrack] = useState(null);
   const [database, setDataBase] = useState({});
-  const [starttime, setStartTime] = useState(new Date().toISOString().split("T")[0]);
-  const [endtime, setEndtime] = useState(new Date().toISOString().split("T")[0]);
+  const [starttime, setStartTime] = useState(onChange(new Date()));
+  // const [starttime, setStartTime] = useState(new Date().toISOString().split("T")[0]);
+  const [endtime, setEndtime] = useState(onChange(new Date()));
+  // const [endtime, setEndtime] = useState(new Date().toISOString().split("T")[0]);
 
   let userid = new URLSearchParams(window.location.search).get("_id");
 
@@ -38,22 +40,27 @@ const Timetrack = () => {
           // Push the item into the corresponding date's array
           dividedData[date].push(item);
         });
-
+        console.log(dividedData);
         function convertArr(start, end) {
           let newArray = [];
           for (let tool in dividedData) {
             if (tool >= start && tool <= end) {
+              console.log(dividedData[tool]);
               let date = [];
               let useTime = 0;
               dividedData[tool].map(item => {
                 useTime += (new Date(item.detect_end).getUTCHours() * 60 + new Date(item.detect_end).getUTCMinutes()) - (new Date(item.detect_start).getUTCHours() * 60 + new Date(item.detect_start).getUTCMinutes());
+
+                function sum(item) {
+                  return new Date(item).getUTCHours() * 60 + new Date(item).getUTCMinutes()
+                }
                 date.push({
                   year: new Date(item.detect_start).getUTCFullYear(),
                   month: new Date(item.detect_start).getUTCMonth() + 1,
                   day: new Date(item.detect_start).getUTCDate(),
                   hour: new Date(item.detect_start).getUTCHours(),
                   minute: new Date(item.detect_start).getUTCMinutes(),
-                  sum: new Date(item.detect_start).getUTCHours() * 60 + new Date(item.detect_start).getUTCMinutes(),
+                  sum: sum(item.detect_start)
                 });
                 date.push({
                   year: new Date(item.detect_end).getUTCFullYear(),
@@ -61,11 +68,14 @@ const Timetrack = () => {
                   day: new Date(item.detect_end).getUTCDate(),
                   hour: new Date(item.detect_end).getUTCHours(),
                   minute: new Date(item.detect_end).getUTCMinutes(),
-                  sum: new Date(item.detect_end).getUTCHours() * 60 + new Date(item.detect_end).getUTCMinutes()
+                  sum: sum(item.detect_end)
                 });
+                console.log('start', sum(item.detect_start));
+                console.log('end', sum(item.detect_end));
               });
               date.unshift({ hour: 0, minute: 0, sum: 0 });
               date.push({ hour: 23, minute: 59, sum: 1440 });
+
               let showMsg = [];
               for (let i = 0; i < date.length - 1; i++) {
                 let hour = Math.floor((date[i + 1].sum - date[i].sum) / 60);
@@ -87,6 +97,7 @@ const Timetrack = () => {
                   }
                 })
               }
+              // console.log(showMsg);
               newArray.push(showMsg);
             }
           }
@@ -98,9 +109,9 @@ const Timetrack = () => {
   }, [starttime, endtime]);
 
   function onChange(e) {
-    const year = e.$d.getFullYear();
-    const month = String(e.$d.getMonth() + 1).padStart(2, "0");
-    const day = String(e.$d.getDate()).padStart(2, "0");
+    const year = e.getFullYear();
+    const month = String(e.getMonth() + 1).padStart(2, "0");
+    const day = String(e.getDate()).padStart(2, "0");
     const convertedDate = `${year}-${month}-${day}`;
     return convertedDate;
   }
@@ -116,7 +127,7 @@ const Timetrack = () => {
             name="fromDate"
             value={dayjs(starttime)}
             // onChange={(newValue) => setStartTime(newValue.$d.toISOString().split("T")[0])}
-            onChange={(newValue) => setStartTime(onChange(newValue))}
+            onChange={(newValue) => setStartTime(onChange(newValue.$d))}
           />
           <DatePicker
             label="To"
@@ -124,7 +135,7 @@ const Timetrack = () => {
             value={dayjs(endtime)}
             // onChange={(newValue) => setEndtime(`${newValue.$y}-${newValue.$M + 1
             //   }-${newValue.$D}`)}
-            onChange={(newValue) => setEndtime(onChange(newValue))}
+            onChange={(newValue) => setEndtime(onChange(newValue.$d))}
           />
         </LocalizationProvider>
       </div>

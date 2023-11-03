@@ -10,10 +10,12 @@ import { Pagination } from '@material-ui/lab';
 import swal from 'sweetalert';
 import { cleanDigitSectionValue } from '@mui/x-date-pickers/internals/hooks/useField/useField.utils';
 // import { withRouter } from './utils';
+
 const axios = require('axios');
 
 
-const Landing = () => {
+
+const Landing = ({ socket }) => {
 
   // const navigate = useNavigate();
   const [token, setToken] = useState('');
@@ -31,7 +33,7 @@ const Landing = () => {
   const [pages, setPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
-
+  const [flag, setFlag] = useState('');
   //-------------------------------add Section-----------
 
   const navigate = useNavigate()
@@ -42,6 +44,10 @@ const Landing = () => {
   )
 
   useEffect(() => {
+
+    socket.on('avatarUpdate', data => {
+      setFlag(data)
+    })
     //-------------add Section------------
     if (isError) {
       console.log(message)
@@ -54,7 +60,7 @@ const Landing = () => {
 
   useEffect(() => {
     getUser();
-  }, [search, page])
+  }, [search, page, flag])
 
 
 
@@ -223,6 +229,7 @@ const Landing = () => {
       });
       handleUserClose();
     });
+    getUser();
   }
 
   return (

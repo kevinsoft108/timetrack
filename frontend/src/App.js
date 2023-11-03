@@ -7,6 +7,11 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Timetrack from './pages/Timetrack'
 import Landing from './pages/subcomponents/Landing'
+import socketIO from 'socket.io-client';
+const socket = socketIO.connect('http://localhost:5000');
+
+
+
 function App() {
   return (
     <>
@@ -15,7 +20,7 @@ function App() {
           <Header />
           <Routes>
             {/* <Route path='/dashboard' element={<Dashboard />} /> */}
-            <Route path='/' element={<Landing />} />
+            <Route path='/' element={<Landing socket={socket} />} />
             <Route path='/timetrack' element={<Timetrack />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
