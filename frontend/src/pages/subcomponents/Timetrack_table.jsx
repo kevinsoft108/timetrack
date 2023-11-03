@@ -29,7 +29,8 @@ const Timetrack_table = ({ timedata }) => {
     const y = event.clientY;
     setShowMessage(true);
     setMessageTop(y + 50);
-    setMessageLeft(x + 20);
+    console.log(x, y);
+    x < 1400 ? setMessageLeft(x + 20) : setMessageLeft(x - 200);
     setMessagedata(event.bar.data);
   }
 
@@ -65,7 +66,7 @@ const Timetrack_table = ({ timedata }) => {
       )}
       <div>
 
-        <TableContainer enablePinning>
+        <TableContainer enablePinning style={{ marginTop: '10px' }}>
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>

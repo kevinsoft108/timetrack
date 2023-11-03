@@ -7,10 +7,14 @@ const Image = require("../models/imageModel");
 const User = require('../models/userModel');
 const Employ = require('../models/employModel');
 
+const app = express();
+
 var saveImg = '';
 
 
+
 const registerUser = asyncHandler(async (req, res) => {
+
   const { name, email, password, image } = req.body
 
   if (!name || !email || !password || !image) {
@@ -29,6 +33,16 @@ const registerUser = asyncHandler(async (req, res) => {
     employExists.save()
     let user = employExists;
     if (user) {
+
+      // socketIO.on('connection', (socket) => {
+      //   console.log(`⚡: ${socket.id} user just connected!`);
+
+      //   socket.on('disconnect', () => {
+      //     console.log('🔥: A user disconnected');
+      //     socket.disconnect();
+      //   });
+      // });
+
       res.status(201).json({
         _id: user.id,
         name: user.username,
