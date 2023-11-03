@@ -113,7 +113,6 @@ router.post("/add-employ", (req, res) => {
 
 /* Api to update User */
 router.post("/update-employ", (req, res) => {
-  console.log(req.body);
   try {
     if (req.body && req.body.username && req.body.email && req.body.password &&
       req.body.id && req.body.confirm_password) {
@@ -124,7 +123,7 @@ router.post("/update-employ", (req, res) => {
           title: 'Password does not match.'
         });
       } else {
-        Employ.findById(req.body.id, (err, new_user) => {
+        const add = Employ.findById(req.body.id, (err, new_user) => {
           if (req.body.username) {
             new_user.username = req.body.username;
           }
@@ -151,6 +150,7 @@ router.post("/update-employ", (req, res) => {
             }
           });
         });
+        console.log(add, '----------------ddd----');
       }
     } else {
       res.status(400).json({

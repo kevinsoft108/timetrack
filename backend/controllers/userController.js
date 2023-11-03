@@ -1,16 +1,15 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
-const User = require('../models/adminModel')
 const express = require("express");
 const router = express.Router()
 const Image = require("../models/imageModel");
+const User = require('../models/userModel');
+const Employ = require('../models/employModel');
 
 var saveImg = '';
 
-// @desc    Register new user
-// @route   POST /api/users
-// @access  Public
+
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, image } = req.body
 
@@ -19,44 +18,36 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error('Please add all fields')
   }
   // Check if user exists
-  const userExists = await User.findOne({ email: email })
+  const employExists = await Employ.findOne({ email: email, username: name })
 
+  if (employExists) {
 
-  if (userExists) {
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+    employExists.password = hashedPassword;
+    employExists.face = image;
+    employExists.save()
+    let user = employExists;
+    if (user) {
+      res.status(201).json({
+        _id: user.id,
+        name: user.username,
+        email: user.email,
+        image: user.face,
+        token: generateToken(user._id)
+      })
+    } else {
+      res.status(400)
+      throw new Error('Invalid user data')
+    }
+  }
+  else {
     res.status(400)
     throw new Error('User already exists')
   }
-
-  // Check if email is allowed
-  // if (!allowedEmails.includes(email)) {
-  //   res.status(400)
-  //   throw new Error('Email now allowed')
-  // }
-
-  // Hash password
-  const salt = await bcrypt.genSalt(10)
-  const hashedPassword = await bcrypt.hash(password, salt)
-
-  // Create user
-  const user = await User.create({
-    name,
-    email,
-    password: hashedPassword,
-    image,
-  })
-  if (user) {
-    res.status(201).json({
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      image: user.image,
-      token: generateToken(user._id),
-    })
-  } else {
-    res.status(400)
-    throw new Error('Invalid user data')
-  }
 })
+
+
 
 // @desc    Authenticate a user
 // @route   POST /api/users/login
@@ -68,7 +59,7 @@ const loginUser = asyncHandler(async (req, res) => {
   // console.log(loginImage,"llllllllllllllllllllllllllllll")
 
   // Check for user email
-  const user = await User.findOne({ email })
+  const user = await Employ.findOne({ email })
   if (user) {
     saveImg = user.image;
     // console.log(saveImg,'sssssssssssssssssssssssssssssssssssssssssssss');
@@ -84,6 +75,7 @@ const loginUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       token: generateToken(user._id),
+      image: user.face
     });
   }
   else {
