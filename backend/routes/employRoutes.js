@@ -60,7 +60,8 @@ router.get("/get-employ", (req, res) => {
 /* Api to add User */
 router.post("/add-employ", (req, res) => {
   try {
-    if (req.body && req.body.email && req.body.username && req.body.password && req.body.confirm_password) {
+    // if (req.body && req.body.email && req.body.username && req.body.password && req.body.confirm_password)
+    if (req.body && req.body.email && req.body.username) {
       let new_user = new Employ();
       new_user.username = req.body.username;
       new_user.email = req.body.email;
@@ -114,8 +115,9 @@ router.post("/add-employ", (req, res) => {
 /* Api to update User */
 router.post("/update-employ", (req, res) => {
   try {
-    if (req.body && req.body.username && req.body.email && req.body.password &&
-      req.body.id && req.body.confirm_password) {
+    // if (req.body && req.body.username && req.body.email && req.body.password &&
+    //   req.body.id && req.body.confirm_password)
+    if (req.body && req.body.username && req.body.email && req.body.id) {
 
       if (req.body.password != req.body.confirm_password) {
         res.status(200).json({

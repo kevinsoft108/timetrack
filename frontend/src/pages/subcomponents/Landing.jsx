@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import swal from 'sweetalert';
+import { cleanDigitSectionValue } from '@mui/x-date-pickers/internals/hooks/useField/useField.utils';
 // import { withRouter } from './utils';
 const axios = require('axios');
 
@@ -53,6 +54,10 @@ const Landing = () => {
 
   }, [user, navigate, isError, message, dispatch]);
 
+  useEffect(() => {
+    getUser();
+  }, [search, page])
+
   const handleUserOpen = () => {
     setOpenUserModal(true)
     setId('')
@@ -85,28 +90,22 @@ const Landing = () => {
   }
   const pageChange = (e, page) => {
     setPage(page);
-    getUser();
   }
 
   const onChange = (e) => {
     // if (e.target.files && e.target.files[0] && e.target.files[0].name) {
     //   setFileName(e.target.files[0].name);
     // }
-    setSearch(e.target.value, () => { });
-    if (e.target.name == 'search') {
-      setPage(1);
-      getUser();
-    }
+    setSearch(e.target.value);
   }
-  console.log(search);
-  const getUser = () => {
+  const getUser = async () => {
     setLoading(true);
     let data = '?';
     data = `${data}page=${page}`;
     if (search) {
       data = `${data}&search=${search}`;
     }
-    axios.get(`/api/employ/get-employ${data}`, {
+    await axios.get(`/api/employ/get-employ${data}`, {
       headers: {
         'token': token
       }
@@ -308,7 +307,8 @@ const Landing = () => {
             Cancel
           </Button>
           <Button
-            disabled={username == '' || email == '' || password == '' || confirm_password == ''}
+            disabled={username == '' || email == ''}
+            // disabled={username == '' || email == '' || password == '' || confirm_password == ''}
             onClick={(e) => updateUser()}
             color="primary" autoFocus>
             Edit User
@@ -345,7 +345,7 @@ const Landing = () => {
             placeholder="Email"
             required
           /><br />
-          <TextField
+          {/* <TextField
             id="standard-basic"
             type="password"
             autoComplete="off"
@@ -364,7 +364,7 @@ const Landing = () => {
             onChange={e => setConfirm_password(e.target.value)}
             placeholder="Confirm Password"
             required
-          /><br /><br />
+          /><br /><br /> */}
         </DialogContent>
 
         <DialogActions>
@@ -374,7 +374,8 @@ const Landing = () => {
             Cancel
           </Button>
           <Button
-            disabled={username == '' || email == '' || password == '' || confirm_password == ''}
+            // disabled={username == '' || email == '' || password == '' || confirm_password == ''}
+            disabled={username == '' || email == ''}
             onClick={(e) => addUser()}
             color="primary" autoFocus>
             Add User

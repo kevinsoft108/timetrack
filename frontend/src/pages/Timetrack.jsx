@@ -43,7 +43,6 @@ const Timetrack = () => {
           let newArray = [];
           for (let tool in dividedData) {
             if (tool >= start && tool <= end) {
-              // console.log(dividedData[tool]);
               let date = [];
               let useTime = 0;
               dividedData[tool].map(item => {
@@ -67,7 +66,6 @@ const Timetrack = () => {
               });
               date.unshift({ hour: 0, minute: 0, sum: 0 });
               date.push({ hour: 23, minute: 59, sum: 1440 });
-              console.log(date);
               let showMsg = [];
               for (let i = 0; i < date.length - 1; i++) {
                 let hour = Math.floor((date[i + 1].sum - date[i].sum) / 60);
@@ -89,7 +87,6 @@ const Timetrack = () => {
                   }
                 })
               }
-              console.log(showMsg);
               newArray.push(showMsg);
             }
           }
@@ -100,6 +97,15 @@ const Timetrack = () => {
       .catch(error => console.log(error))
   }, [starttime, endtime]);
 
+  function onChange(e) {
+    const year = e.$d.getFullYear();
+    const month = String(e.$d.getMonth() + 1).padStart(2, "0");
+    const day = String(e.$d.getDate()).padStart(2, "0");
+    const convertedDate = `${year}-${month}-${day}`;
+    return convertedDate;
+  }
+
+
   return (
     <div>
       <h2>Time Tracking Dashboard</h2>
@@ -109,7 +115,8 @@ const Timetrack = () => {
             label="From"
             name="fromDate"
             value={dayjs(starttime)}
-            onChange={(newValue) => setStartTime(newValue.$d.toISOString().split("T")[0])}
+            // onChange={(newValue) => setStartTime(newValue.$d.toISOString().split("T")[0])}
+            onChange={(newValue) => setStartTime(onChange(newValue))}
           />
           <DatePicker
             label="To"
@@ -117,7 +124,7 @@ const Timetrack = () => {
             value={dayjs(endtime)}
             // onChange={(newValue) => setEndtime(`${newValue.$y}-${newValue.$M + 1
             //   }-${newValue.$D}`)}
-            onChange={(newValue) => setEndtime(newValue.$d.toISOString().split("T")[0])}
+            onChange={(newValue) => setEndtime(onChange(newValue))}
           />
         </LocalizationProvider>
       </div>
