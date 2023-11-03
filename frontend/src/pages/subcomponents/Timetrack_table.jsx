@@ -29,7 +29,6 @@ const Timetrack_table = ({ timedata }) => {
     const y = event.clientY;
     setShowMessage(true);
     setMessageTop(y + 50);
-    console.log(x, y);
     x < 1400 ? setMessageLeft(x + 20) : setMessageLeft(x - 200);
     setMessagedata(event.bar.data);
   }

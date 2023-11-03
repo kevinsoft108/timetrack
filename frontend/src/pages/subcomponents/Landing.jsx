@@ -9,12 +9,10 @@ import {
 import { Pagination } from '@material-ui/lab';
 import swal from 'sweetalert';
 import { cleanDigitSectionValue } from '@mui/x-date-pickers/internals/hooks/useField/useField.utils';
-
-
-
-
 // import { withRouter } from './utils';
 const axios = require('axios');
+
+
 const Landing = () => {
 
   // const navigate = useNavigate();
@@ -48,18 +46,17 @@ const Landing = () => {
     if (isError) {
       console.log(message)
     }
-
     if (!user) {
       navigate('/login')
     }
-
     getUser()
-
   }, [user, navigate, isError, message, dispatch]);
 
   useEffect(() => {
     getUser();
   }, [search, page])
+
+
 
   const handleUserOpen = () => {
     setOpenUserModal(true)

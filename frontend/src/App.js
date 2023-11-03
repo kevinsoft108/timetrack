@@ -7,8 +7,6 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Timetrack from './pages/Timetrack'
 import Landing from './pages/subcomponents/Landing'
-import socketIO from 'socket.io-client';
-const socket = socketIO.connect('http://192.168.133.240:5000');
 function App() {
   return (
     <>
