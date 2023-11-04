@@ -12,10 +12,6 @@ const timetrackModel = new mongoose.Schema({
   detect_end: {
     type: Date,
     required: true
-  },
-  note: {
-    type: String,
-    required: false
   }
 });
 
