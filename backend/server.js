@@ -13,8 +13,9 @@ const bcrypt = require('bcryptjs')
 const Employ = require('./models/employModel');
 const io = require('socket.io')(server);
 const cors = require('cors');
-
+const callBack = require('./config/callback')
 app.use(cors());
+const formatDateString = require('./config/formatDate')
 
 const socketIO = require('socket.io')(server, {
   cors: {
@@ -28,6 +29,15 @@ socketIO.on('connection', (socket) => {
 connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+
+
+
+setInterval(function () {
+  console.log('-----------------', formatDateString(new Date()), '-------------------------')
+  callBack()
+}, 10000)
+
 
 // const timetrackSeed = require('./seeds/timetrackSeed');
 

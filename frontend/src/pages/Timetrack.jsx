@@ -40,7 +40,6 @@ const Timetrack = () => {
           // Push the item into the corresponding date's array
           dividedData[date].push(item);
         });
-        console.log(dividedData);
         function convertArr(start, end) {
           let newArray = [];
           for (let tool in dividedData) {
@@ -52,7 +51,7 @@ const Timetrack = () => {
                 useTime += (new Date(item.detect_end).getUTCHours() * 60 + new Date(item.detect_end).getUTCMinutes()) - (new Date(item.detect_start).getUTCHours() * 60 + new Date(item.detect_start).getUTCMinutes());
 
                 function sum(item) {
-                  return new Date(item).getUTCHours() * 60 + new Date(item).getUTCMinutes()
+                  return new Date(item).getUTCHours() * 3600 + new Date(item).getUTCMinutes() * 60 + new Date(item).getUTCSeconds()
                 }
                 date.push({
                   year: new Date(item.detect_start).getUTCFullYear(),
@@ -70,17 +69,15 @@ const Timetrack = () => {
                   minute: new Date(item.detect_end).getUTCMinutes(),
                   sum: sum(item.detect_end)
                 });
-                console.log('start', sum(item.detect_start));
-                console.log('end', sum(item.detect_end));
               });
               date.unshift({ hour: 0, minute: 0, sum: 0 });
-              date.push({ hour: 23, minute: 59, sum: 1440 });
+              date.push({ hour: 23, minute: 59, sum: 86400 });
 
               let showMsg = [];
               for (let i = 0; i < date.length - 1; i++) {
                 let hour = Math.floor((date[i + 1].sum - date[i].sum) / 60);
                 let minute = (date[i + 1].sum - date[i].sum) % 60;
-                let value = 100 * (date[i + 1].sum - date[i].sum) / 1440;
+                let value = 100 * (date[i + 1].sum - date[i].sum) / 86400;
                 let color = !(i % 2) ? 'red' : 'green';
                 showMsg.push({
                   value: value,
@@ -97,7 +94,7 @@ const Timetrack = () => {
                   }
                 })
               }
-              // console.log(showMsg);
+              console.log(showMsg);
               newArray.push(showMsg);
             }
           }

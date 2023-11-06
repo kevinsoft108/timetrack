@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler')
-
 const Timetrack = require('../models/timetrackModel')
+const formatDateString = require('../config/formatDate')
 
 // @desc    Get goals
 // @route   GET /api/goals
@@ -12,67 +12,45 @@ const getTimetrack = asyncHandler(async (req, res) => {
 })
 
 const setTimetrack = asyncHandler(async (req, res) => {
-  const { userid, flag, _id } = req.body;
-
-  const inputDateString = "11/4/2023, 9:56:46 PM";
-  const inputDateFormat = "MM/DD/YYYY, h:mm:ss A";
-  const outputDateFormat = "YYYY-MM-DDTHH:mm:ssZ";
-
-  const inputDate = new Date(inputDateString);
-  const outputDateString = formatDateString(inputDate, outputDateFormat);
-
-  // Get the current local time in Japan
-  let today = new Date();
-  let today_change = today.toLocaleString();
-
-  //Get the current local time + one minute
-  const currentTime = new Date();
-  const newTime = new Date(currentTime.getTime() + 60000);
-  const newTime_one = newTime.toLocaleString()
-
-  // res.json(formatDateString(new Date(today_change), outputDateFormat))
-
-  if (flag == 1) {
-    console.log("-------------startime--------------");
-    const setStartTime = await Timetrack.create({
+  console.log(new Date(), req.body);
+  const { userid, flag, newid } = req.body;
+  if (!newid && flag == 1) {
+    console.log('--------start-------', new Date())
+    const newTrack = await Timetrack.create({
       userid: userid,
-      detect_start: formatDateString(new Date(today_change), outputDateFormat),
-      detect_end: formatDateString(new Date(newTime_one), outputDateFormat)
+      detect_start: formatDateString(new Date()),
+      detect_end: formatDateString(new Date()),
+      update: formatDateString(new Date())
     })
-    res.json(setStartTime._id)
-  } else {
-    console.log("-------------endtime--------------");
-    beforeTime = await Timetrack.findOne({ user: userid, _id: _id })
-    beforeTime.detect_end = formatDateString(new Date(today_change), outputDateFormat);
-    beforeTime.save()
-    // res.json(beforeTime);
+    // console.log(newTrack._id);
+    res.json(newTrack._id)
+  }
+  if (flag == 1 && newid) {
+    const track = await Timetrack.findOne({ userid: userid, _id: newid })
+    const standard = new Date().getTime() - new Date(track.update).getTime()
+    if (standard < 310000) {
+      console.log("------update------", new Date());
+      track.update = formatDateString(new Date())
+      track.detect_end = formatDateString(new Date())
+      track.save()
+      res.json(track._id)
+    }
+  }
+  if (newid && flag == 0) {
+    const track = await Timetrack.findOne({ userid: userid, _id: newid })
+    console.log('--------end-------', new Date())
+    if (!track.detect_end) {
+      track.detect_end = formatDateString(new Date())
+      track.save()
+      res.json('')
+    } else {
+      res.json('')
+    }
+  }
+  if (flag == 0) {
+    res.json('')
   }
 
-  function formatDateString(date, format) {
-    const year = date.getFullYear().toString();
-    let month = (date.getMonth() + 1).toString();
-    let day = date.getDate().toString();
-    let hours = date.getHours().toString();
-    let minutes = date.getMinutes().toString();
-    let seconds = date.getSeconds().toString();
-
-    month = month.length === 1 ? '0' + month : month;
-    day = day.length === 1 ? '0' + day : day;
-    hours = hours.length === 1 ? '0' + hours : hours;
-    minutes = minutes.length === 1 ? '0' + minutes : minutes;
-    seconds = seconds.length === 1 ? '0' + seconds : seconds;
-
-    const formattedDate = format
-      .replace('YYYY', year)
-      .replace('MM', month)
-      .replace('DD', day)
-      .replace('HH', hours)
-      .replace('mm', minutes)
-      .replace('ss', seconds)
-      .replace('Z', 'Z');
-
-    return formattedDate;
-  }
 })
 
 module.exports = {

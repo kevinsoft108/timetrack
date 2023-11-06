@@ -11,8 +11,9 @@ const timetrackModel = new mongoose.Schema({
   },
   detect_end: {
     type: Date,
-    required: true
-  }
+    required: false
+  },
+  update: Date
 });
 
 const TimetrackModel = mongoose.model('Timetrack', timetrackModel);
