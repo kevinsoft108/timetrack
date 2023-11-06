@@ -19,8 +19,8 @@ const setTimetrack = asyncHandler(async (req, res) => {
     const newTrack = await Timetrack.create({
       userid: userid,
       detect_start: formatDateString(new Date()),
-      detect_end: formatDateString(new Date()),
-      update: formatDateString(new Date())
+      detect_end: formatDateString(new Date(new Date().getTime() + 2000)),
+      update: new Date()
     })
     // console.log(newTrack._id);
     res.json(newTrack._id)
@@ -30,8 +30,8 @@ const setTimetrack = asyncHandler(async (req, res) => {
     const standard = new Date().getTime() - new Date(track.update).getTime()
     if (standard < 310000) {
       console.log("------update------", new Date());
-      track.update = formatDateString(new Date())
-      track.detect_end = formatDateString(new Date())
+      track.update = new Date()
+      track.detect_end = formatDateString(new Date(new Date().getTime() + 2000))
       track.save()
       res.json(track._id)
     }
@@ -40,7 +40,8 @@ const setTimetrack = asyncHandler(async (req, res) => {
     const track = await Timetrack.findOne({ userid: userid, _id: newid })
     console.log('--------end-------', new Date())
     if (!track.detect_end) {
-      track.detect_end = formatDateString(new Date())
+      track.detect_end = formatDateString(new Date(new Date().getTime() + 2000))
+      track.check = formatDateString(new Date(new Date().getTime() + 2000))
       track.save()
       res.json('')
     } else {

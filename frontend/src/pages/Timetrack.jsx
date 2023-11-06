@@ -75,8 +75,8 @@ const Timetrack = () => {
 
               let showMsg = [];
               for (let i = 0; i < date.length - 1; i++) {
-                let hour = Math.floor((date[i + 1].sum - date[i].sum) / 60);
-                let minute = (date[i + 1].sum - date[i].sum) % 60;
+                let hour = Math.floor((date[i + 1].sum - date[i].sum) / 3600);
+                let minute = Math.floor(Math.floor((date[i + 1].sum - date[i].sum) % 3600) / 60);
                 let value = 100 * (date[i + 1].sum - date[i].sum) / 86400;
                 let color = !(i % 2) ? 'red' : 'green';
                 showMsg.push({

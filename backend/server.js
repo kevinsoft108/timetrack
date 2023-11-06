@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: false }));
 
 
 setInterval(function () {
-  console.log('-----------------', formatDateString(new Date()), '-------------------------')
+  console.log('-----------------', new Date().getTime(), '-------------------------')
   callBack()
 }, 10000)
 
