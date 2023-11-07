@@ -65,7 +65,7 @@ const Timetrack_table = ({ timedata }) => {
       )}
       <div>
 
-        <TableContainer enablePinning style={{ marginTop: '10px' }}>
+        <TableContainer enablepinning style={{ marginTop: '10px' }}>
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>

@@ -19,7 +19,7 @@ const Landing = ({ socket }) => {
 
   // const navigate = useNavigate();
   const [token, setToken] = useState('');
-  const [openUserModal, setOpenUserModal] = useState('');
+  const [openUserModal, setOpenUserModal] = useState(false);
   const [openUserEditModal, setOpenUserEditModal] = useState(false);
   const [id, setId] = useState('');
   const [email, setEmail] = useState('');
