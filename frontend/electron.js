@@ -2,7 +2,7 @@ const { app, BrowserWindow } = require('electron');
 // const path = require('path');
 // const url =require('url');
 const isDev = true; // require('electron-is-dev');
-const START_URL = 'http://localhost:3000';
+const START_URL = 'http://localhost:3006';
 
 const createWindow = () => {
     let mainWindow = new BrowserWindow({
@@ -10,7 +10,7 @@ const createWindow = () => {
         height: 800,
         icon: '',
         webPreferences: {
-            nodeIntegration: false,
+            nodeIntegration: true,
         },
     });
     const startUrl = isDev ?

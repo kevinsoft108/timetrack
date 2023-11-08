@@ -8,7 +8,7 @@ import Register from './pages/Register'
 import Timetrack from './pages/Timetrack'
 import Landing from './pages/subcomponents/Landing'
 import socketIO from 'socket.io-client';
-const socket = socketIO.connect('http://localhost:5000');
+const socket = socketIO.connect('http://137.184.16.50:5000/');
 
 
 

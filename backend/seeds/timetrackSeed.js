@@ -36,7 +36,7 @@ const data = [
 ];
 
 // Seed the data
-Timetrack.insertMany(data)
+Timetrack.insertOne(data)
   .then(() => {
     console.log('Data seeded successfully');
     mongoose.disconnect();

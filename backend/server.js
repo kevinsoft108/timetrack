@@ -16,10 +16,10 @@ const cors = require('cors');
 const callBack = require('./config/callback')
 app.use(cors());
 const formatDateString = require('./config/formatDate')
-
+const adminSeed = require('./seeds/adminSeed')
 const socketIO = require('socket.io')(server, {
   cors: {
-    origin: "http://localhost:3006"
+    origin: 'http://localhost:3006'
   }
 });
 socketIO.on('connection', (socket) => {
@@ -31,10 +31,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
-
+if (process.env.FLAG == 'true') {
+  adminSeed()
+}
 
 setInterval(function () {
-  console.log('-----------------', new Date().getTime(), '-------------------------')
+  console.log('-----------------', new Date(), '-------------------------')
   callBack()
 }, 10000)
 

@@ -214,3 +214,16 @@ h3 {
     font-size: 1.5rem;
   }
 }
+
+.MuiFormControl-root {
+  min-width: 420px !important;
+}
+
+.MuiDialogContent-root {
+  margin-bottom: 47px !important;
+}
+
+.MuiButton-containedPrimary {
+  position: absolute !important;
+  left: 100px;
+}

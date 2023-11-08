@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "main": "electron.js",
-  "proxy": "http://localhost:5000/",
+  "proxy": "http://137.184.16.50:5000/",
   "private": true,
   "build": {
     "extends": null
@@ -32,7 +32,7 @@
     "start": "set PORT=3006 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && nodemon --exec electron .\"",
+    "dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3006 && nodemon --exec electron .\"",
     "production": "npm run build && electron-builder build --win --x64",
     "eject": "react-scripts eject"
   },
