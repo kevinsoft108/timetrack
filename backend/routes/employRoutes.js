@@ -152,7 +152,6 @@ router.post("/update-employ", (req, res) => {
             }
           });
         });
-        console.log(add, '----------------ddd----');
       }
     } else {
       res.status(400).json({

@@ -2,7 +2,7 @@ const { app, BrowserWindow } = require('electron');
 // const path = require('path');
 // const url =require('url');
 const isDev = true; // require('electron-is-dev');
-const START_URL = 'http://localhost:3006';
+const START_URL = isDev ? 'http://localhost:3006/admin' : 'http://localhost:3006';
 
 const createWindow = () => {
     let mainWindow = new BrowserWindow({
@@ -13,8 +13,7 @@ const createWindow = () => {
             nodeIntegration: true,
         },
     });
-    const startUrl = isDev ?
-        START_URL : `file://${__dirname}/build/index.html`;
+    const startUrl = isDev ? START_URL : `file://${__dirname}/build/index.html`;
 
     mainWindow.loadURL(startUrl);
     if (isDev) {

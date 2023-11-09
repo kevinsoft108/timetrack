@@ -18,11 +18,9 @@ const adminSeed = asyncHandler(async () => {
   Admin.create(data)
     .then(() => {
       console.log('Data seeded successfully');
-      mongoose.disconnect();
     })
     .catch(error => {
       console.error('Error seeding data:', error);
-      mongoose.disconnect();
     });
 })
 

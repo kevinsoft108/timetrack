@@ -70,13 +70,11 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password, image } = req.body
   const loginImage = image;
-  // console.log(loginImage,"llllllllllllllllllllllllllllll")
 
   // Check for user email
   const user = await Employ.findOne({ email })
   if (user) {
     saveImg = user.image;
-    // console.log(saveImg,'sssssssssssssssssssssssssssssssssssssssssssss');
   }
   // else {
   //   // If the user is not found, you can throw an error or set a default value
@@ -96,13 +94,6 @@ const loginUser = asyncHandler(async (req, res) => {
     res.status(400)
     throw new Error('Invalid credentials')
   }
-})
-
-// // ------------ Here! You compare dashboard image
-const work = asyncHandler(async (req, res) => {
-  const { image } = req.body;
-  // const newImage = req.body.image;
-  console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
 })
 
 

@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "main": "electron.js",
-  "proxy": "http://137.184.16.50:5000/",
+  "proxy": "http://localhost:5000/",
   "private": true,
   "build": {
     "extends": null
@@ -17,6 +17,7 @@
     "@reduxjs/toolkit": "^1.7.2",
     "axios": "^0.25.0",
     "dayjs": "^1.11.10",
+    "face-api.js": "^0.22.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-horizontal-stacked-bar-chart": "^8.15.2",
@@ -26,7 +27,8 @@
     "react-scripts": "5.0.0",
     "react-toastify": "^8.1.1",
     "socket.io-client": "^4.7.2",
-    "sweetalert": "^2.1.2"
+    "sweetalert": "^2.1.2",
+    "webcamjs": "^1.0.26"
   },
   "scripts": {
     "start": "set PORT=3006 && react-scripts start",

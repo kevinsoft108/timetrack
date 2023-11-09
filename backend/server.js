@@ -7,19 +7,17 @@ const connectDB = require('./config/db');
 const port = process.env.PORT || 5000;
 const app = express();
 const server = require('http').createServer(app);
-//-------------change---------
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const Employ = require('./models/employModel');
 const io = require('socket.io')(server);
 const cors = require('cors');
-const callBack = require('./config/callback')
+const callBack = require('./middleware/callback')
 app.use(cors());
-const formatDateString = require('./config/formatDate')
 const adminSeed = require('./seeds/adminSeed')
 const socketIO = require('socket.io')(server, {
   cors: {
-    origin: 'http://localhost:3006'
+    origin: process.env.HTTP
   }
 });
 socketIO.on('connection', (socket) => {
@@ -36,7 +34,6 @@ if (process.env.FLAG == 'true') {
 }
 
 setInterval(function () {
-  console.log('-----------------', new Date(), '-------------------------')
   callBack()
 }, 10000)
 
@@ -47,10 +44,8 @@ app.use('/api/goals', require('./routes/goalRoutes'));
 app.use('/api/timetrack', require('./routes/timetrackRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/employ', require('./routes/employRoutes'));
-// app.use('/api/users', require('./routes/userRoutes'));
 
 
-//-------------change---------
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: '30d',
@@ -58,13 +53,13 @@ const generateToken = (id) => {
 }
 app.post('/api/users/', async (req, res) => {
   const { name, email, password, image } = req.body
+  console.log(req.body);
   if (!name || !email || !password || !image) {
-    // res.status(400)
-    // throw new Error('Please add all fields')
     res.status(400).json('Please add all fields')
   }
   // Check if user exists
   const employExists = await Employ.findOne({ email: email, username: name })
+  console.log(employExists);
   if (employExists) {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
@@ -94,21 +89,15 @@ app.post('/api/users/', async (req, res) => {
   }
 })
 app.post('/api/users/login', async (req, res) => {
-  console.log('---------111111--------');
+  console.log(req.body);
   const { email, password, image } = req.body
   const loginImage = image;
-  // console.log(loginImage,"llllllllllllllllllllllllllllll")
 
   // Check for user email
   const user = await Employ.findOne({ email })
   if (user) {
     saveImg = user.image;
-    // console.log(saveImg,'sssssssssssssssssssssssssssssssssssssssssssss');
   }
-  // else {
-  //   // If the user is not found, you can throw an error or set a default value
-  //   throw new Error('User not found');
-  // }
 
   if (user && (await bcrypt.compare(password, user.password))) {
     res.json({
@@ -125,12 +114,6 @@ app.post('/api/users/login', async (req, res) => {
     res.json('Invalid credentials')
   }
 })
-
-
-
-
-
-
 
 // Serve frontend
 if (process.env.NODE_ENV === 'production') {
