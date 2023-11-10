@@ -1,10 +1,8 @@
 {
   "scripts": {
     "backend": "cd backend && npm start",
-    "frontend": "cd frontend && npm start",
-    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+    "frontend": "cd frontend && npm start"
   },
   "dependencies": {
-    "concurrently": "^8.2.2"
   }
 }
