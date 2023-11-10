@@ -17,7 +17,7 @@ app.use(cors());
 const adminSeed = require('./seeds/adminSeed')
 const socketIO = require('socket.io')(server, {
   cors: {
-    origin: 'http://localhost:3000'
+    origin: 'http://64.227.133.148:3000'
   }
 });
 socketIO.on('connection', (socket) => {
