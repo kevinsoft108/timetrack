@@ -18,7 +18,7 @@ function Header() {
   return (
     <header className='header'>
       <div className='logo'>
-        <Link to='/dashboard'>GoalSetter</Link>
+        <Link to='/dashboard'>Time track</Link>
       </div>
       <ul>
         {(user && facedetection) ? (

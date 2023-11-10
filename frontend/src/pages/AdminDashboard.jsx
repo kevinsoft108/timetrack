@@ -8,15 +8,10 @@ import {
 } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import swal from 'sweetalert';
-import { cleanDigitSectionValue } from '@mui/x-date-pickers/internals/hooks/useField/useField.utils';
-// import { withRouter } from './utils';
 
 const axios = require('axios');
 
-
-
-const Landing = ({ socket }) => {
-
+const AdminDashboard = ({ socket }) => {
   // const navigate = useNavigate();
   const [token, setToken] = useState('');
   const [openUserModal, setOpenUserModal] = useState(false);
@@ -39,30 +34,22 @@ const Landing = ({ socket }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.auth)
-  const { isError, message } = useSelector(
-    (state) => state.goals
-  )
 
   useEffect(() => {
 
     socket.on('avatarUpdate', data => {
       setFlag(data)
     })
-    //-------------add Section------------
-    if (isError) {
-      console.log(message)
-    }
+
     if (!user) {
-      navigate('/login')
+      navigate('/admin/login')
     }
     getUser()
-  }, [user, navigate, isError, message, dispatch]);
+  }, [user, navigate, dispatch]);
 
   useEffect(() => {
     getUser();
   }, [search, page, flag])
-
-
 
   const handleUserOpen = () => {
     setOpenUserModal(true)
@@ -91,17 +78,13 @@ const Landing = ({ socket }) => {
     setOpenUserEditModal(true);
   }
   const handleTrackOpen = (subdata) => {
-    console.log(subdata._id);
-    navigate(`/timetrack?_id=${subdata._id}`);
+    navigate(`/admin/timetrack?_id=${subdata._id}`);
   }
   const pageChange = (e, page) => {
     setPage(page);
   }
 
   const onChange = (e) => {
-    // if (e.target.files && e.target.files[0] && e.target.files[0].name) {
-    //   setFileName(e.target.files[0].name);
-    // }
     setSearch(e.target.value);
   }
   const getUser = async () => {
@@ -120,11 +103,7 @@ const Landing = ({ socket }) => {
       setUsers(res.data.users);
       setPages(res.data.pages);
     }).catch((err) => {
-      swal({
-        text: err.response.data.errorMessage,
-        icon: "error",
-        type: "error"
-      });
+      console.log(err.response.data.errorMessage);
       setLoading(false);
       setUsers([]);
       setPages(0)
@@ -314,8 +293,8 @@ const Landing = ({ socket }) => {
             Cancel
           </Button>
           <Button
-            disabled={username == '' || email == ''}
-            // disabled={username == '' || email == '' || password == '' || confirm_password == ''}
+            disabled={username === '' || email === ''}
+            // disabled={username === '' || email === '' || password === '' || confirm_password === ''}
             onClick={(e) => updateUser()}
             color="primary" autoFocus>
             Edit User
@@ -381,8 +360,8 @@ const Landing = ({ socket }) => {
             Cancel
           </Button>
           <Button
-            // disabled={username == '' || email == '' || password == '' || confirm_password == ''}
-            disabled={username == '' || email == ''}
+            // disabled={username === '' || email === '' || password === '' || confirm_password === ''}
+            disabled={username === '' || email === ''}
             onClick={(e) => addUser()}
             color="primary" autoFocus>
             Add User
@@ -466,4 +445,4 @@ const Landing = ({ socket }) => {
   );
 }
 
-export default Landing;
+export default AdminDashboard;

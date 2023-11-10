@@ -18,7 +18,6 @@ const Dashboard = () => {
   const webcamRef = useRef(null);
 
   const { user } = useSelector((state) => state.auth);
-  const { isLoading, isError, message } = useSelector((state) => state.goals);
 
   const [working, setWorking] = useState(true)
   const [failedCnt, setFailedCnt] = useState(0)       //Count failed recognition
@@ -30,10 +29,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     // Set mounted to true when component is mounted
-
-    if (isError) {
-      console.log(message);
-    }
     if (!user && !localStorage.getItem('user')) {
       navigate("/");
     }
@@ -43,7 +38,7 @@ const Dashboard = () => {
       // Set mounted to false when component is unmounted
       setMounted(false);
     };
-  }, [user, navigate, isError, message, dispatch]);
+  }, [user, navigate, dispatch]);
 
   useEffect(() => {
     if (webcamRef.current) {
@@ -192,10 +187,6 @@ const Dashboard = () => {
       }
     }
   }, [database, mounted])
-
-  if (isLoading) {
-    return <Spinner />;
-  }
 
   return (
     <>

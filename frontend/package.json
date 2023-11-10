@@ -2,7 +2,6 @@
   "name": "frontend",
   "version": "0.1.0",
   "main": "electron.js",
-  "proxy": "http://localhost:5000/",
   "private": true,
   "build": {
     "extends": null
@@ -18,6 +17,7 @@
     "axios": "^0.25.0",
     "dayjs": "^1.11.10",
     "face-api.js": "^0.22.2",
+    "http-proxy-middleware": "^2.0.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-horizontal-stacked-bar-chart": "^8.15.2",
@@ -31,10 +31,10 @@
     "webcamjs": "^1.0.26"
   },
   "scripts": {
-    "start": "set PORT=3006 && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3006 && nodemon --exec electron .\"",
+    "dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && nodemon --exec electron .\"",
     "production": "npm run build && electron-builder build --win --x64",
     "eject": "react-scripts eject"
   },

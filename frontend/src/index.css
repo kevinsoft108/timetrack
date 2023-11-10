@@ -56,6 +56,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 0;
 }
 
 .header ul li {
@@ -86,31 +87,8 @@ h3 {
   color: #828282;
 }
 
-.goals {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.goal {
-  background-color: #f4f4f4;
-  margin: 10px 0;
-  padding: 20px 0 10px;
-  position: relative;
-}
-
-.goal .close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
-  border: none;
-  background: none;
-}
-
-.form,
-.content {
-  width: 30%;
+.form {
+  width: 40%;
   margin: 0 auto;
 }
 
@@ -226,4 +204,8 @@ h3 {
 .MuiButton-containedPrimary {
   position: absolute !important;
   left: 100px;
+}
+
+.MuiFormControl-root {
+  margin-bottom: 30px !important;
 }

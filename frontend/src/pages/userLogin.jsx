@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login, reset } from "../features/auth/authSlice";
 import Spinner from "../components/Spinner";
@@ -120,8 +120,6 @@ const Login = () => {
     return <Spinner />;
   }
 
-
-
   return (
     <>
       <section className="heading">
@@ -167,7 +165,7 @@ const Login = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group" style={{ display: "flex", justifyContent: "space-around" }}>
             <button
               type="submit"
               onClick={captureImage}
@@ -176,6 +174,9 @@ const Login = () => {
             >
               {isLoading ? "Logging in..." : "Login"}
             </button>
+            <Link to='/register' className="btn btn-block">
+              Register
+            </Link>
           </div>
         </form>
       </section>

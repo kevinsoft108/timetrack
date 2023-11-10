@@ -104,11 +104,11 @@ const initializeFaceMatcher = async (referenceBuffer) => {
 // @desc    compare two faces and check if they are same or not
 export const getSimilarityBetweenFaces = async (referenceBuffer, queryBuffer) => {
     try {
-        if (referenceBuffer == "") {
+        if (referenceBuffer === "") {
             console.log('reference image undefined')
             return 1;
         }
-        if (queryBuffer == "") {
+        if (queryBuffer === "") {
             console.log('query image undefined')
             return 1;
         }
@@ -125,7 +125,7 @@ export const getSimilarityBetweenFaces = async (referenceBuffer, queryBuffer) =>
         //const referFaceBuffer = await cropFaceRegion(referenceBuffer)
 
         const queryFaceBuffer = await cropFaceRegion(queryBuffer)
-        if (queryFaceBuffer == "") {
+        if (queryFaceBuffer === "") {
             return 1
         }
 
@@ -160,11 +160,11 @@ export const getSimilarityBetweenFaces = async (referenceBuffer, queryBuffer) =>
 
 // @desc    Compare two images and check if same person exist or not
 const detectAndRecognizeFace = async (referenceBuffer, queryBuffer) => {
-    if (referenceBuffer == "") {
+    if (referenceBuffer === "") {
         console.log('reference image undefined')
         return "";
     }
-    if (queryBuffer == "") {
+    if (queryBuffer === "") {
         console.log('query image undefined')
         return "";
     }

@@ -1,4 +1,4 @@
-import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa'
+import { FaSignOutAlt } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout, reset } from '../features/auth/authSlice'
@@ -7,6 +7,7 @@ function Header() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.auth)
+  const facedetection = localStorage.getItem('facedetection')
 
   const onLogout = () => {
     dispatch(logout())
@@ -17,27 +18,17 @@ function Header() {
   return (
     <header className='header'>
       <div className='logo'>
-        <Link to='/'>Time track</Link>
+        <Link to='/dashboard'>Time track</Link>
       </div>
       <ul>
-        {user ? (
+        {(user && facedetection) ? (
           <li>
-            <button className='btn' onClick={onLogout}>
+            <Link to='#' onClick={onLogout}>
               <FaSignOutAlt /> Logout
-            </button>
+            </Link>
           </li>
         ) : (
           <>
-            <li>
-              <Link to='/login'>
-                <FaSignInAlt /> Login
-              </Link>
-            </li>
-            {/* <li>
-              <Link to='/register'>
-                <FaUser /> Register
-              </Link>
-            </li> */}
           </>
         )}
       </ul>

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import HSBar from "react-horizontal-stacked-bar-chart";
 import {
-  Button, TextField, Dialog, DialogActions, LinearProgress,
-  DialogTitle, DialogContent, TableBody, Table,
+  TableBody, Table,
   TableContainer, TableHead, TableRow, TableCell
 } from '@material-ui/core';
 

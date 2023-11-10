@@ -2,7 +2,8 @@ const { app, BrowserWindow } = require('electron');
 // const path = require('path');
 // const url =require('url');
 const isDev = true; // require('electron-is-dev');
-const START_URL = isDev ? 'http://localhost:3006/admin' : 'http://localhost:3006';
+const isAdmin = true;
+const START_URL = isAdmin ? 'http://localhost:3000/admin' : 'http://localhost:3000';
 
 const createWindow = () => {
     let mainWindow = new BrowserWindow({
