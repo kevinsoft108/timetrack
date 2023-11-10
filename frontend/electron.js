@@ -3,7 +3,7 @@ const { app, BrowserWindow } = require('electron');
 // const url =require('url');
 const isDev = true; // require('electron-is-dev');
 const isAdmin = true;
-const START_URL = isAdmin ? 'http://144.126.254.71/admin' : 'http://144.126.254.71';
+const START_URL = isAdmin ? 'http://144.126.254.71/admin' : 'https://144.126.254.71';
 
 const createWindow = () => {
     let mainWindow = new BrowserWindow({
@@ -18,7 +18,7 @@ const createWindow = () => {
 
     mainWindow.loadURL(startUrl);
     if (isDev) {
-        mainWindow.webContents.openDevTools({ mode: 'right' });
+        // mainWindow.webContents.openDevTools({ mode: 'right' });
     }
     mainWindow.on('closed', () => (mainWindow = null));
 };
