@@ -39,7 +39,6 @@ router.get("/get-employ", (req, res) => {
                 status: false
               });
             }
-
           });
 
       }).catch(err => {

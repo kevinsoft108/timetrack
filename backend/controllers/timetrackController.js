@@ -2,9 +2,6 @@ const asyncHandler = require('express-async-handler')
 const Timetrack = require('../models/timetrackModel')
 const formatDateString = require('../config/formatDate')
 
-// @desc    Get goals
-// @route   GET /api/goals
-// @access  Private
 const getTimetrack = asyncHandler(async (req, res) => {
   const userId = req.body.userid;
   const timetrack = await Timetrack.find({ userid: userId });

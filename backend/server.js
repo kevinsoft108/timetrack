@@ -17,7 +17,7 @@ app.use(cors());
 const adminSeed = require('./seeds/adminSeed')
 const socketIO = require('socket.io')(server, {
   cors: {
-    origin: process.env.HTTP
+    origin: 'http://localhost:3000'
   }
 });
 socketIO.on('connection', (socket) => {
@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
-if (process.env.FLAG == 'true') {
+if (process.env.SEED_ADMIN == 'true') {
   adminSeed()
 }
 
@@ -40,7 +40,6 @@ setInterval(function () {
 
 // const timetrackSeed = require('./seeds/timetrackSeed');
 
-app.use('/api/goals', require('./routes/goalRoutes'));
 app.use('/api/timetrack', require('./routes/timetrackRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/employ', require('./routes/employRoutes'));

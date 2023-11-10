@@ -5,5 +5,4 @@ JWT_SECRET = abc123
 ADMIN_NAME = admin
 ADMIN_EMAIL = admin@gmail.com
 ADMIN_PASSWORD = 12345
-FLAG = false
-HTTP = http://localhost:3006
+SEED_ADMIN = false
