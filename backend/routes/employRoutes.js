@@ -167,16 +167,16 @@ router.post("/update-employ", (req, res) => {
 });
 
 /* Api to delete User */
-router.post("/delete-employ", (req, res) => {
+router.post("/delete-employ", async (req, res) => {
   try {
     if (req.body && req.body.id) {
-      Employ.findByIdAndRemove(req.body.id, (err, deletedUser) => {
-        if (deletedUser) {
-          return res.status(200).json({ title: 'User deleted successfully', status: true, deletedUser });
-        } else {
-          return res.status(404).json({ errorMessage: 'User not found', status: false });
-        }
-      });
+      const deletedUser = await Employ.findByIdAndRemove(req.body.id);
+      if (deletedUser) {
+        await TimeTrack.deleteMany({ userid: deletedUser._id });
+        return res.status(200).json({ title: 'User deleted successfully', status: true, deletedUser });
+      } else {
+        return res.status(404).json({ errorMessage: 'User not found', status: false });
+      }
     } else {
       res.status(400).json({
         errorMessage: 'Add proper parameter first!',
