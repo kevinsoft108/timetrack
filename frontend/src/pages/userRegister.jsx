@@ -100,27 +100,31 @@ const Register = () => {
     e.preventDefault();
 
 
-    const faceBuffer = await cropFaceRegion(image)
-    console.log(faceBuffer, "---------------faceBuffer")
+    if (image) {
+      const faceBuffer = await cropFaceRegion(image)
+      console.log(faceBuffer, "---------------faceBuffer")
 
-    if (password !== password2) {
-      toast.error("Passwords do not match");
-    } else if (!faceBuffer) {
-      toast.error("Can not detect face in captured image");
+      if (password !== password2) {
+        toast.error("Passwords do not match");
+      } else if (!faceBuffer) {
+        toast.error("Can not detect face in captured image");
+      } else {
+        // setFormData((prevState) => ({
+        //   ...prevState,
+        //   image: faceBuffer,
+        // }));
+
+        const userData = {
+          name,
+          email,
+          password,
+          image: faceBuffer, // Include the captured image data URI in the userData
+        };
+
+        dispatch(register(userData));
+      }
     } else {
-      // setFormData((prevState) => ({
-      //   ...prevState,
-      //   image: faceBuffer,
-      // }));
-
-      const userData = {
-        name,
-        email,
-        password,
-        image: faceBuffer, // Include the captured image data URI in the userData
-      };
-
-      dispatch(register(userData));
+      toast.error("You have to take a picture")
     }
   };
 

@@ -42,31 +42,19 @@ function Register() {
     }))
   }
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (image) {
-      const faceBuffer = await cropFaceRegion(image)
-      if (password !== password2) {
-        toast.error("Passwords do not match");
-      } else if (!faceBuffer) {
-        toast.error("Can not detect face in captured image");
-      } else {
-        // setFormData((prevState) => ({
-        //   ...prevState,
-        //   image: faceBuffer,
-        // }));
+  const onSubmit = (e) => {
+    e.preventDefault()
 
-        const userData = {
-          name,
-          email,
-          password,
-          image: faceBuffer, // Include the captured image data URI in the userData
-        };
-
-        dispatch(register(userData));
-      }
+    if (password !== password2) {
+      toast.error('Passwords do not match')
     } else {
-      toast.error("You have to Capture your picture");
+      const userData = {
+        name,
+        email,
+        password,
+      }
+
+      dispatch(register(userData))
     }
   }
 
