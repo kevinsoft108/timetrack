@@ -52,13 +52,11 @@ const generateToken = (id) => {
 }
 app.post('/api/users/', async (req, res) => {
   const { name, email, password, image } = req.body
-  console.log(req.body);
   if (!name || !email || !password || !image) {
     res.status(400).json('Please add all fields')
   }
   // Check if user exists
   const employExists = await Employ.findOne({ email: email, username: name })
-  console.log(employExists);
   if (employExists) {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
@@ -88,9 +86,7 @@ app.post('/api/users/', async (req, res) => {
   }
 })
 app.post('/api/users/login', async (req, res) => {
-  console.log(req.body);
-  const { email, password, image } = req.body
-  const loginImage = image;
+  const { email, password } = req.body
 
   // Check for user email
   const user = await Employ.findOne({ email })
