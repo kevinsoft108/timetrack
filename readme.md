@@ -29,3 +29,14 @@ yarn start
 ```
 yarn production
 ```
+
+
+### Deploy
+
+```
+pm2 ls
+pm2 start npm --name "backend" -- run backend
+pm2 start npm --name "frontend" -- run frontend
+pm2 delete backend
+pm2 delete frontend
+```
