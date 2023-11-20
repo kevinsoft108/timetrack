@@ -18,10 +18,10 @@ function Header() {
   return (
     <header className='header'>
       <div className='logo'>
-        <Link to='/dashboard'>Time track</Link>
+        <Link to='/admin'>Time track</Link>
       </div>
       <ul>
-        {(user && facedetection) ? (
+        {(user) ? (
           <li>
             <Link to='#' onClick={onLogout}>
               <FaSignOutAlt /> Logout
