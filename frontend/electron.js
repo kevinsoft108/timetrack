@@ -4,6 +4,8 @@ const { app, BrowserWindow } = require('electron');
 const isDev = true; // require('electron-is-dev');
 const isAdmin = true;
 const START_URL = isAdmin ? 'http://144.126.254.71/admin' : 'https://144.126.254.71';
+app.commandLine.appendSwitch('ignore-certificate-errors')
+
 
 const createWindow = () => {
     let mainWindow = new BrowserWindow({
