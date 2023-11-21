@@ -99,7 +99,7 @@ app.post('/api/users/login', async (req, res) => {
   if (user && (await bcrypt.compare(password, user.password))) {
     res.json({
       _id: user._id,
-      name: user.name,
+      name: user.username,
       email: user.email,
       token: generateToken(user._id),
       image: user.face
