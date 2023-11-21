@@ -21,6 +21,7 @@ const Timetrack = () => {
     axios.post('/api/timetrack', { userid: userid })
       .then(res => {
         let data = res.data;
+        console.log(res.data);
         // Object to store the divided arrays
         const dividedData = {};
 

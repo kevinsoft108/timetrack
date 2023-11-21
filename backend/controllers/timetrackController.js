@@ -17,7 +17,7 @@ const setTimetrack = asyncHandler(async (req, res) => {
       detect_end: formatDateString(new Date(new Date().getTime() + 2000)),
       update: new Date()
     })
-    // console.log(newTrack._id);
+    console.log(newTrack);
     res.json(newTrack._id)
   }
   if (flag == 1 && newid) {
@@ -28,6 +28,7 @@ const setTimetrack = asyncHandler(async (req, res) => {
       track.detect_end = formatDateString(new Date(new Date().getTime() + 2000))
       track.save()
       res.json(track._id)
+      console.log(track);
     }
   }
   if (newid && flag == 0) {
