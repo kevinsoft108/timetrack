@@ -15,7 +15,7 @@ const cors = require('cors');
 const callBack = require('./middleware/callback')
 app.use(cors());
 const adminSeed = require('./seeds/adminSeed')
-const formatDate = require('./config/formatDate')
+const formatDateString = require('./config/formatDate')
 const socketIO = require('socket.io')(server, {
   cors: {
     origin: '*'
@@ -35,7 +35,7 @@ if (process.env.SEED_ADMIN == 'true') {
 }
 
 setInterval(function () {
-  console.log("-------", formatDate(new Date), "-----------");
+  console.log("-------", formatDateString(new Date), "-----------");
   callBack()
 }, 10000)
 
