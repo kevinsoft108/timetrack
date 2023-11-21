@@ -34,7 +34,18 @@ if (process.env.SEED_ADMIN == 'true') {
 }
 
 setInterval(function () {
-  console.log("----------", new Date(), "-------------");
+  const localTime = new Date().toLocaleString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    timeZone: 'Asia/Tokyo'
+  });
+
+  console.log("----------", localTime, "-------------");
   callBack()
 }, 10000)
 
