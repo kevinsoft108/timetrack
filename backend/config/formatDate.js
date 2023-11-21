@@ -1,14 +1,4 @@
-function formatDateString(utcTime) {
-  const time = utcTime.toLocaleString('en-US', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-    timeZone: 'Asia/Tokyo'
-  });
+function formatDateString(time) {
   const format = "YYYY-MM-DDTHH:mm:ssZ";
   const year = time.getFullYear().toString();
   let month = (time.getMonth() + 1).toString();
