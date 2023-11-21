@@ -34,6 +34,7 @@ if (process.env.SEED_ADMIN == 'true') {
 }
 
 setInterval(function () {
+  console.log("----------", new Date(), "-------------");
   callBack()
 }, 10000)
 
