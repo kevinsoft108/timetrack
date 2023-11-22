@@ -15,7 +15,7 @@ const Timetrack_table = ({ timedata }) => {
   const timelineData = [];
 
   // Using a for loop to cycle from 0 to 24
-  for (let i = 0; i <= 23; i++) {
+  for (let i = 9; i < 17; i++) {
     timelineData.push({
       value: 1,
       color: "red",
@@ -29,7 +29,7 @@ const Timetrack_table = ({ timedata }) => {
     setShowMessage(true);
     setMessageTop(y + 50);
     x < 1400 ? setMessageLeft(x + 20) : setMessageLeft(x - 200);
-    setMessagedata(event.bar.data);
+    setMessagedata(event.bar);
   }
 
   document.addEventListener(
@@ -41,6 +41,7 @@ const Timetrack_table = ({ timedata }) => {
     }
   )
 
+  console.log(messagedata);
   return (
     <>
       {showMessage && (
@@ -50,16 +51,21 @@ const Timetrack_table = ({ timedata }) => {
             position: 'absolute',
             top: messageTop,
             left: messageLeft,
-            width: '200px',
-            height: '150px',
+            width: '250px',
+            height: '120px',
             backgroundColor: '#FAF0E6',
-            padding: '47px 0px',
+            padding: '50px 0px',
             borderRadius: '30px',
             color: '#CD5C5C'
           }}
         >
-          <div>Time: {messagedata.start.hour}:{messagedata.start.minute} to {messagedata.end.hour}:{messagedata.end.minute}</div>
-          <div>Total Time: {messagedata.duration.hour} hr {messagedata.duration.minute} min</div>
+          {/* <div>Login: {messagedata.data.start.hour}:{messagedata.data.start.minute} to {messagedata.data.end.hour}:{messagedata.data.end.minute}</div>
+          <div>Total Time: {messagedata.data.duration.hour} hr {messagedata.data.duration.minute} min</div> */}
+          {messagedata['color'] == 'green'
+            ? (<div>Login: {messagedata.data.start.hour >= 13 ? `${messagedata.data.start.hour - 12}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} PM` : `${messagedata.data.start.hour}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} AM`} to {messagedata.data.end.hour >= 13 ? `${messagedata.data.end.hour - 12}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} PM` : `${messagedata.data.end.hour}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} AM`}</div>)
+            : messagedata['color'] == 'red'
+              ? (<div>Break:{messagedata.data.start.hour >= 13 ? `${messagedata.data.start.hour - 12}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} PM` : `${messagedata.data.start.hour}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} AM`} to {messagedata.data.end.hour >= 13 ? `${messagedata.data.end.hour - 12}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} PM` : `${messagedata.data.end.hour}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} AM`}</div>)
+              : (<div>Left:{messagedata.data.start.hour >= 13 ? `${messagedata.data.start.hour - 12}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} PM` : `${messagedata.data.start.hour}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} AM`} to {messagedata.data.end.hour >= 13 ? `${messagedata.data.end.hour - 12}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} PM` : `${messagedata.data.end.hour}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} AM`}</div>)}
         </div>
       )}
       <div>

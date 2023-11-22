@@ -9,8 +9,8 @@ const callBack = async () => {
     const time = documents[item]
     const standard = 400000
     if ((new Date().getTime() - new Date(time.update).getTime()) >= standard) {
-      time.detect_end = formatDateString(new Date(new Date(time.update).getTime() + 2000))
-      time.check = formatDateString(new Date(new Date(time.update).getTime() + 2000))
+      time.detect_end = formatDateString(new Date(new Date(time.update).getTime() + 1000))
+      time.check = formatDateString(new Date(new Date(time.update).getTime() + 1000))
       time.save()
     }
   }

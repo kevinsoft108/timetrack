@@ -21,7 +21,7 @@ const Timetrack = () => {
     axios.post('/api/timetrack', { userid: userid })
       .then(res => {
         let data = res.data;
-        console.log(res.data);
+        // console.log(res.data);
         // Object to store the divided arrays
         const dividedData = {};
 
@@ -44,7 +44,6 @@ const Timetrack = () => {
           let newArray = [];
           for (let tool in dividedData) {
             if (tool >= start && tool <= end) {
-              console.log(dividedData[tool]);
               let date = [];
               let useTime = 0;
               dividedData[tool].map(item => {
@@ -70,14 +69,14 @@ const Timetrack = () => {
                   sum: sum(item.detect_end)
                 });
               });
-              date.unshift({ hour: 0, minute: 0, sum: 0 });
-              date.push({ hour: 23, minute: 59, sum: 86400 });
-
+              date.unshift({ hour: 9, minute: 0, sum: 32400 });
+              date.push({ hour: 17, minute: 0, sum: 61200 });
+              // console.log(date);
               let showMsg = [];
               for (let i = 0; i < date.length - 1; i++) {
                 let hour = Math.floor((date[i + 1].sum - date[i].sum) / 3600);
                 let minute = Math.floor(Math.floor((date[i + 1].sum - date[i].sum) % 3600) / 60);
-                let value = 100 * (date[i + 1].sum - date[i].sum) / 86400;
+                let value = 100 * (date[i + 1].sum - date[i].sum) / 28800;
                 let color = !(i % 2) ? 'red' : 'green';
                 showMsg.push({
                   value: value,
@@ -94,7 +93,8 @@ const Timetrack = () => {
                   }
                 })
               }
-              console.log(showMsg);
+              showMsg[showMsg.length - 1].color = 'blue'
+              // console.log(showMsg);
               newArray.push(showMsg);
             }
           }
