@@ -54,18 +54,22 @@ const Timetrack_table = ({ timedata }) => {
             width: '250px',
             height: '120px',
             backgroundColor: '#FAF0E6',
-            padding: '50px 0px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
             borderRadius: '30px',
             color: '#CD5C5C'
           }}
         >
-          {/* <div>Login: {messagedata.data.start.hour}:{messagedata.data.start.minute} to {messagedata.data.end.hour}:{messagedata.data.end.minute}</div>
+          <div>
+            {/* <div>Login: {messagedata.data.start.hour}:{messagedata.data.start.minute} to {messagedata.data.end.hour}:{messagedata.data.end.minute}</div>
           <div>Total Time: {messagedata.data.duration.hour} hr {messagedata.data.duration.minute} min</div> */}
-          {messagedata['color'] == 'green'
-            ? (<div>Login: {messagedata.data.start.hour >= 13 ? `${messagedata.data.start.hour - 12}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} PM` : `${messagedata.data.start.hour}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} AM`} to {messagedata.data.end.hour >= 13 ? `${messagedata.data.end.hour - 12}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} PM` : `${messagedata.data.end.hour}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} AM`}</div>)
-            : messagedata['color'] == 'red'
-              ? (<div>Break:{messagedata.data.start.hour >= 13 ? `${messagedata.data.start.hour - 12}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} PM` : `${messagedata.data.start.hour}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} AM`} to {messagedata.data.end.hour >= 13 ? `${messagedata.data.end.hour - 12}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} PM` : `${messagedata.data.end.hour}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} AM`}</div>)
-              : (<div>Left:{messagedata.data.start.hour >= 13 ? `${messagedata.data.start.hour - 12}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} PM` : `${messagedata.data.start.hour}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} AM`} to {messagedata.data.end.hour >= 13 ? `${messagedata.data.end.hour - 12}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} PM` : `${messagedata.data.end.hour}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} AM`}</div>)}
+            {messagedata['color'] == 'green'
+              ? (<div>Login: {messagedata.data.start.hour >= 13 ? `${messagedata.data.start.hour - 12}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} PM` : `${messagedata.data.start.hour}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} AM`} to {messagedata.data.end.hour >= 13 ? `${messagedata.data.end.hour - 12}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} PM` : `${messagedata.data.end.hour}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} AM`}<br />Total Time: {messagedata.data.duration.hour} hr {messagedata.data.duration.minute} min</div>)
+              : messagedata['color'] == 'red'
+                ? (<div>Break:{messagedata.data.start.hour >= 13 ? `${messagedata.data.start.hour - 12}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} PM` : `${messagedata.data.start.hour}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} AM`} to {messagedata.data.end.hour >= 13 ? `${messagedata.data.end.hour - 12}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} PM` : `${messagedata.data.end.hour}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} AM`}<br />Total Time: {messagedata.data.duration.hour} hr {messagedata.data.duration.minute} min</div>)
+                : (<div>Left:{messagedata.data.start.hour >= 13 ? `${messagedata.data.start.hour - 12}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} PM` : `${messagedata.data.start.hour}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} AM`} to {messagedata.data.end.hour >= 13 ? `${messagedata.data.end.hour - 12}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} PM` : `${messagedata.data.end.hour}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} AM`}<br />Total Time: {messagedata.data.duration.hour} hr {messagedata.data.duration.minute} min</div>)}
+          </div>
         </div>
       )}
       <div>
