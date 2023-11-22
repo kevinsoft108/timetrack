@@ -102,12 +102,15 @@ const Register = () => {
 
     if (image) {
       const faceBuffer = await cropFaceRegion(image)
-      console.log(faceBuffer, "---------------faceBuffer")
+      //console.log(faceBuffer, "---------------faceBuffer")
+      const result = await cropFaceRegion(image)
 
       if (password !== password2) {
         toast.error("Passwords do not match");
-      } else if (!faceBuffer) {
+      } else if (result.state == 0) {
         toast.error("Can not detect face in captured image");
+      } else if (result.state == 2) {
+        toast.error("more than 2 faces detected in captured image");
       } else {
         // setFormData((prevState) => ({
         //   ...prevState,
@@ -118,7 +121,7 @@ const Register = () => {
           name,
           email,
           password,
-          image: faceBuffer, // Include the captured image data URI in the userData
+          image: result.face, // Include the captured image data URI in the userData
         };
 
         dispatch(register(userData));

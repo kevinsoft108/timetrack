@@ -30,11 +30,12 @@ export const cropFaceRegion = async (buffer) => {
         //console.log(buffer)
 
         //Detect the face with the highest confidence score in an image.
-        const detection = await faceapi.detectSingleFace(img)
+        const detections = await faceapi.detectAllFaces(img)
 
-        if (detection) {
+        if (detections.length == 1) {
             //console.log(detection)
             // A face was detected
+            const detection = detections[0]
             const bbox = detection.box; // Access the bounding box directly using the `box` property
             //console.log(bbox);
 
@@ -63,12 +64,17 @@ export const cropFaceRegion = async (buffer) => {
             // faceImg.src = faceBuffer
             // console.log("face image width ", faceImg.width.toString())
             // console.log("face image height ", faceImg.height.toString())
-
-            return faceBuffer
-        } else {
+            const result = { state: 1, face: faceBuffer }
+            return result
+        } else if (!detections.length) {
             // No face was detected
             // console.log("No face detected");
-            return ""
+            const result = { state: 0, face: "" }
+            return result
+        } else {
+            // if more than 2 faces detected
+            const result = { state: 2, face: "" }
+            return result
         }
 
     } catch (error) {
@@ -124,11 +130,13 @@ export const getSimilarityBetweenFaces = async (referenceBuffer, queryBuffer) =>
         // We have to register only face image so it is not needed anymore in future
         //const referFaceBuffer = await cropFaceRegion(referenceBuffer)
 
-        const queryFaceBuffer = await cropFaceRegion(queryBuffer)
-        if (queryFaceBuffer === "") {
+        const result = await cropFaceRegion(queryBuffer)
+
+        if (!result.state || result.state == 2) {
             return 1
         }
 
+        const queryFaceBuffer = result.face
         const referFaceImg = new Image();
         referFaceImg.src = referenceBuffer
 

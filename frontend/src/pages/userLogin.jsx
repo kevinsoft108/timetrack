@@ -66,7 +66,7 @@ const Login = () => {
       } else if (isSuccess || user) {
         const result = await getSimilarityBetweenFaces(user.image, formData.image);
 
-        if (result < 0.6) {
+        if (result < 0.5) {
           localStorage.setItem('facedetection', true);
           navigate("/dashboard");
         } else {

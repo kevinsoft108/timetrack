@@ -88,7 +88,7 @@ const Dashboard = () => {
 
       const checkworking = (similiarity) => {
         // console.log("similarity in checkworking: ", similiarity)
-        if (similiarity < 0.6) {
+        if (similiarity < 0.5) {
           var curTime = parseInt(Date.now() / 60000)
           // console.log('similarity is less than 0.6')
           if (!working) {
