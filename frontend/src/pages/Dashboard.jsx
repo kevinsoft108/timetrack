@@ -195,7 +195,7 @@ const Dashboard = () => {
         <p>{user.name}</p>
       </section>
 
-      {/* <section className="form" style={{ display: "flex", justifyContent: "center" }}>
+      <section className="form" style={{ display: "flex", justifyContent: "center" }}>
         <div
           className="form-group"
           style={{
@@ -212,7 +212,7 @@ const Dashboard = () => {
             ></img>
           </div>
         </div>
-      </section> */}
+      </section>
 
       <section className="form" style={{ display: 'none' }}>
         <div>
