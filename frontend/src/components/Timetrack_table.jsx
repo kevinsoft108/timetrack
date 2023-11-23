@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HSBar from "react-horizontal-stacked-bar-chart";
 import {
   TableBody, Table,
@@ -12,6 +12,8 @@ const Timetrack_table = ({ timedata }) => {
   const [messageTop, setMessageTop] = useState(0);
   const [messageLeft, setMessageLeft] = useState(0);
   const [messagedata, setMessagedata] = useState('');
+  const [result, setResult] = useState(false);
+  const [time, setTime] = useState(null);
   const timelineData = [];
 
   // Using a for loop to cycle from 0 to 24
@@ -32,16 +34,29 @@ const Timetrack_table = ({ timedata }) => {
     setMessagedata(event.bar);
   }
 
+  const showResult = (event) => {
+    event.preventDefault();
+    const x = event.clientX;
+    const y = event.clientY;
+    setTime(event.target.title);
+    setMessageTop(y + 50);
+    setMessageLeft(x + 20);
+    setResult(true);
+  }
   document.addEventListener(
     "click",
     function (event) {
+      event.preventDefault();
       if (!event.target.closest("#tablecell")) {
         setShowMessage(false);
+      }
+      event.preventDefault();
+      if (!event.target.closest("#resultMessage")) {
+        setResult(false);
       }
     }
   )
 
-  console.log(messagedata);
   return (
     <>
       {showMessage && (
@@ -62,8 +77,6 @@ const Timetrack_table = ({ timedata }) => {
           }}
         >
           <div>
-            {/* <div>Login: {messagedata.data.start.hour}:{messagedata.data.start.minute} to {messagedata.data.end.hour}:{messagedata.data.end.minute}</div>
-          <div>Total Time: {messagedata.data.duration.hour} hr {messagedata.data.duration.minute} min</div> */}
             {messagedata['color'] == 'green'
               ? (<div>Login: {messagedata.data.start.hour >= 13 ? `${messagedata.data.start.hour - 12}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} PM` : `${messagedata.data.start.hour}:${messagedata.data.start.minute >= 10 ? `${messagedata.data.start.minute}` : `0${messagedata.data.start.minute}`} AM`} to {messagedata.data.end.hour >= 13 ? `${messagedata.data.end.hour - 12}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} PM` : `${messagedata.data.end.hour}:${messagedata.data.end.minute >= 10 ? `${messagedata.data.end.minute}` : `0${messagedata.data.end.minute}`} AM`}<br />Total Time: {messagedata.data.duration.hour} hr {messagedata.data.duration.minute} min</div>)
               : messagedata['color'] == 'red'
@@ -73,7 +86,6 @@ const Timetrack_table = ({ timedata }) => {
         </div>
       )}
       <div>
-
         <TableContainer enablepinning style={{ marginTop: '10px' }}>
           <Table aria-label="simple table">
             <TableHead>
@@ -93,10 +105,39 @@ const Timetrack_table = ({ timedata }) => {
                       {timetrack[0]['data']['time']}
                     </TableCell>
                     <TableCell align="center" component="th" scope="row">
-                      {Math.floor(timetrack[0]['data']['useTime'] / 60)}hr{Math.floor(timetrack[0]['data']['useTime'] % 60)}
+                      <div
+                        title={timetrack[0]['data']['useTime']}
+                        onClick={showResult}
+                        id="resultMessage"
+                      >
+                        {Math.floor(timetrack[0]['data']['useTime'] / 60)}hr{Math.floor(timetrack[0]['data']['useTime'] % 60)}
+                      </div>
+                      {result && (
+                        <div
+                          id="messagebox"
+                          style={{
+                            position: 'absolute',
+                            top: messageTop,
+                            left: messageLeft,
+                            width: '250px',
+                            height: '120px',
+                            backgroundColor: '#FAF0E6',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: '30px',
+                            color: '#CD5C5C'
+                          }}
+                        >
+                          <div>
+                            Time: 9:00 AM to 17:00 PM<br />
+                            Total: Time: 8 hr<br />
+                            Productive time: {Math.floor(time / 60)} hr {Math.floor(time % 60)} min<br />
+                            Un productive time: {Math.floor((480 - time) / 60)} hr {Math.floor((480 - time) % 60)} min
+                          </div>
+                        </div>)}
                     </TableCell>
                     <TableCell id="tablecell">
-                      {/* <HSBar data={[{ value: 10 }, { value: 11.89 }, { value: 48.11 }]} onClick={e => alert(e.bar)}></HSBar> */}
                       {
                         <HSBar data={timetrack} onClick={showMessagebox}></HSBar>
                       }
@@ -104,7 +145,6 @@ const Timetrack_table = ({ timedata }) => {
                   </TableRow>
                 )
               })}
-
             </TableBody>
           </Table>
           <br />

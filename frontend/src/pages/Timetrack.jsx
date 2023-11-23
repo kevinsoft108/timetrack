@@ -14,14 +14,13 @@ const Timetrack = () => {
   // const [starttime, setStartTime] = useState(new Date().toISOString().split("T")[0]);
   const [endtime, setEndtime] = useState(onChange(new Date()));
   // const [endtime, setEndtime] = useState(new Date().toISOString().split("T")[0]);
-
   let userid = new URLSearchParams(window.location.search).get("_id");
 
   useEffect(() => {
     axios.post('/api/timetrack', { userid: userid })
       .then(res => {
         let data = res.data;
-        // console.log(res.data);
+        console.log(res.data);
         // Object to store the divided arrays
         const dividedData = {};
 
@@ -93,8 +92,10 @@ const Timetrack = () => {
                   }
                 })
               }
-              showMsg[showMsg.length - 1].color = 'blue'
-              // console.log(showMsg);
+              if (Boolean(formatDateString(new Date()) < (tool + "T17:00:00Z"))) {
+                showMsg[showMsg.length - 1].color = 'blue'
+              }
+              console.log(showMsg);
               newArray.push(showMsg);
             }
           }
@@ -113,6 +114,32 @@ const Timetrack = () => {
     return convertedDate;
   }
 
+  function formatDateString(time) {
+    const format = "YYYY-MM-DDTHH:mm:ssZ";
+    const year = time.getFullYear().toString();
+    let month = (time.getMonth() + 1).toString();
+    let day = time.getDate().toString();
+    let hours = time.getHours().toString();
+    let minutes = time.getMinutes().toString();
+    let seconds = time.getSeconds().toString();
+
+    month = month.length === 1 ? '0' + month : month;
+    day = day.length === 1 ? '0' + day : day;
+    hours = hours.length === 1 ? '0' + hours : hours;
+    minutes = minutes.length === 1 ? '0' + minutes : minutes;
+    seconds = seconds.length === 1 ? '0' + seconds : seconds;
+
+    const formattedDate = format
+      .replace('YYYY', year)
+      .replace('MM', month)
+      .replace('DD', day)
+      .replace('HH', hours)
+      .replace('mm', minutes)
+      .replace('ss', seconds)
+      .replace('Z', 'Z');
+
+    return formattedDate;
+  }
 
   return (
     <div>
