@@ -20,7 +20,6 @@ const Timetrack = () => {
     axios.post('/api/timetrack', { userid: userid })
       .then(res => {
         let data = res.data;
-        console.log(res.data);
         // Object to store the divided arrays
         const dividedData = {};
 
@@ -70,7 +69,6 @@ const Timetrack = () => {
               });
               date.unshift({ hour: 9, minute: 0, sum: 32400 });
               date.push({ hour: 17, minute: 0, sum: 61200 });
-              // console.log(date);
               let showMsg = [];
               for (let i = 0; i < date.length - 1; i++) {
                 let hour = Math.floor((date[i + 1].sum - date[i].sum) / 3600);
@@ -92,6 +90,7 @@ const Timetrack = () => {
                   }
                 })
               }
+              console.log(formatDateString(new Date()), "------------", tool + "T17:00:00Z");
               if (Boolean(formatDateString(new Date()) < (tool + "T17:00:00Z"))) {
                 showMsg[showMsg.length - 1].color = 'blue'
               }
