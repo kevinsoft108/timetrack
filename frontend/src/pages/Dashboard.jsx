@@ -194,6 +194,26 @@ const Dashboard = () => {
         <h1>Welcome</h1>
         <p>{user.name}</p>
       </section>
+
+      <section className="form" style={{ display: "flex", justifyContent: "center" }}>
+        <div
+          className="form-group"
+          style={{
+            width: "320px",
+            height: "280px",
+            outline: "2px solid black",
+            marginBottom: "20px",
+          }}
+        >
+          <div style={{ height: '240px', width: '320px', marginTop: '20px' }}>
+            <img
+              src={user.image}
+              style={{ height: "240px", width: "320px" }}
+            ></img>
+          </div>
+        </div>
+      </section>
+
       <section className="form" style={{ display: 'none' }}>
         <div>
           <div style={{ display: "flex", justifyContent: "center" }}>
