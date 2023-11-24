@@ -11,9 +11,9 @@ import UserHeader from './components/UserHeader'
 import UserLogin from './pages/userLogin';
 import UserRegister from './pages/userRegister';
 import Dashboard from './pages/Dashboard';
-import socketIO from 'socket.io-client';
+import io from 'socket.io-client'; // Import the socket.io-client library
 
-const socket = socketIO.connect('http://144.126.254.71:5000/api');
+const socket = io.connect(process.env.REACT_APP_SOCKET_URL); // Connect to the socket.io server on the "/api" path
 
 function App() {
   const url = window.location.href;

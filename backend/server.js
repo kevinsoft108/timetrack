@@ -21,7 +21,8 @@ const socketIO = require('socket.io')(server, {
     origin: '*'
   }
 });
-socketIO.on('connection', (socket) => {
+const apiNamespace = socketIO.of('/api');
+apiNamespace.on('connection', (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
 })
 
@@ -66,7 +67,7 @@ app.post('/api/users/', async (req, res) => {
     employExists.save()
     let user = employExists;
     if (user) {
-      socketIO.emit('avatarUpdate', name);
+      apiNamespace.emit('avatarUpdate', name);
       res.status(201).json({
         _id: user.id,
         name: user.username,
