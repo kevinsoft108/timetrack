@@ -13,7 +13,7 @@ import UserRegister from './pages/userRegister';
 import Dashboard from './pages/Dashboard';
 import socketIO from 'socket.io-client';
 
-const socket = socketIO.connect('http://144.126.254.71:5000/');
+const socket = socketIO.connect('http://144.126.254.71:5000/api');
 
 function App() {
   const url = window.location.href;
