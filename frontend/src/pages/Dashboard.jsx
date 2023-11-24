@@ -192,7 +192,7 @@ const Dashboard = () => {
     <>
       <section className="heading">
         <h1>Welcome</h1>
-        <p>{user.name}</p>
+        {user && <p>{user.name}</p>}
       </section>
 
       {/* <section className="form" style={{ display: "flex", justifyContent: "center" }}>
