@@ -28,8 +28,9 @@ const Dashboard = () => {
   const [mounted, setMounted] = useState(false); // Added mounted state
 
   useEffect(() => {
+    const facedetection = localStorage.getItem('facedetection')
     // Set mounted to true when component is mounted
-    if (!user && !localStorage.getItem('user')) {
+    if (!user || !localStorage.getItem('user') || !facedetection) {
       navigate("/");
     }
     setMounted(true);
