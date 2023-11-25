@@ -1,9 +1,19 @@
 {
-  "name": "frontend",
+  "name": "TimeTrack",
   "version": "0.1.0",
   "main": "electron.js",
+  "author": "Andrii",
+  "description": "Time tracking app based on face detection",
   "private": true,
   "build": {
+    "appId": "timetrack",
+    "mac": {
+      "category": "face detection",
+      "target": "mas"
+    },
+    "win": {
+      "target": "nsis"
+    },
     "extends": null
   },
   "dependencies": {
@@ -35,7 +45,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && nodemon --exec electron .\"",
-    "production": "npm run build && electron-builder build --win --x64",
+    "postinstall": "electron-builder install-app-deps",
+    "app": "electron-builder build --x64",
+    "app:arm64": "electron-builder build --arm64",
+    "app:ia32": "electron-builder build --ia32",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
