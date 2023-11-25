@@ -64,11 +64,6 @@ const Register = () => {
 
   const { name, email, password, password2, image } = formData;
 
-  // console.log(image);
-  // console.log(name);
-  // console.log(formData);
-  // console.log(typeof(image));
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -81,8 +76,8 @@ const Register = () => {
       toast.error(message);
       setWebcamInit(true)
     }
-
-    if (isSuccess || user) {
+    console.log(isSuccess, '--------', user);
+    if (isSuccess && user) {
       navigate("/");
     }
 

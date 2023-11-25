@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { adminLogin, reset } from '../features/auth/authSlice'
+import { adminLogin, reset } from '../features/auth/adminAuthReducer'
 import Spinner from '../components/Spinner'
 
 function Login() {
@@ -17,7 +17,7 @@ function Login() {
   const dispatch = useDispatch()
 
   const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
+    (state) => state.adminAuth
   )
 
   useEffect(() => {

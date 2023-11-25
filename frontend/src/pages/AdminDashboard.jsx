@@ -38,6 +38,7 @@ const AdminDashboard = ({ socket }) => {
   useEffect(() => {
 
     socket.on('avatarUpdate', data => {
+      console.log(data);
       setFlag(data)
     })
 
@@ -191,14 +192,15 @@ const AdminDashboard = ({ socket }) => {
       }
     }).then((res) => {
 
+      setPage(1);
+      pageChange(null, 1);
+      getUser();
+
       swal({
         text: res.data.title,
         icon: "success",
         type: "success"
       });
-
-      setPage(1);
-      pageChange(null, 1);
 
     }).catch((err) => {
       swal({
@@ -208,7 +210,6 @@ const AdminDashboard = ({ socket }) => {
       });
       handleUserClose();
     });
-    getUser();
   }
 
   return (
