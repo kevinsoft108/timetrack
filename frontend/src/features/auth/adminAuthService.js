@@ -7,14 +7,14 @@ const adminLogin = async (userData) => {
   const response = await axios.post('/api/admin/login', userData)
 
   if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data))
+    localStorage.setItem('admin', JSON.stringify(response.data))
   }
   return response.data
 }
 
 // Logout user
 const logout = () => {
-  localStorage.removeItem('user')
+  localStorage.removeItem('admin')
 }
 
 const authService = {
