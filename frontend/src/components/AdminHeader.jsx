@@ -1,12 +1,12 @@
 import { FaSignOutAlt } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { logout, reset } from '../features/auth/authSlice'
+import { logout, reset } from '../features/auth/adminAuthReducer'
 
 function Header() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { user } = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.adminAuth)
   const facedetection = localStorage.getItem('facedetection')
 
   const onLogout = () => {

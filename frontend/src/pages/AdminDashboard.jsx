@@ -33,7 +33,7 @@ const AdminDashboard = ({ socket }) => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { user } = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.adminAuth)
 
   useEffect(() => {
 
