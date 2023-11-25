@@ -38,6 +38,7 @@ const AdminDashboard = ({ socket }) => {
   useEffect(() => {
 
     socket.on('avatarUpdate', data => {
+      console.log(data);
       setFlag(data)
     })
 
