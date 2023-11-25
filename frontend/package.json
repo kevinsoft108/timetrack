@@ -9,7 +9,7 @@
     "appId": "timetrack",
     "mac": {
       "category": "face detection",
-      "target": "dmg"
+      "target": "mas"
     },
     "win": {
       "target": "nsis"
