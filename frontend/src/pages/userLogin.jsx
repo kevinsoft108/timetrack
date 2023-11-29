@@ -6,9 +6,10 @@ import { login, reset } from "../features/auth/authSlice";
 import Spinner from "../components/Spinner";
 
 // ---------- webcam ------------- //
-import Webcam from "webcamjs";
+import Webcam from 'webcam-easy';
 
 import { getSimilarityBetweenFaces, initializeNet } from '../js/engine.js'
+
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -17,37 +18,62 @@ const Login = () => {
     image: "",
   });
 
+  const [snap, setSnap] = useState("");
+
   const { email, password, image } = formData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const webcamRef = useRef(null);
+  const canvasRef = useRef(null);
+  const webcam = useRef(null);
 
-  const [webcamInit, setWebcamInit] = useState(false)
+  const [webcamInit, setWebcamInit] = useState(true)
+
 
   useEffect(() => {
-    if (webcamRef.current) {
-      Webcam.set({
-        width: 319,
-        height: 280,
-        image_format: "jpeg",
-        jpeg_quality: 90,
-      });
-      Webcam.attach(webcamRef.current);
-      setWebcamInit(false)
-    }
-    return () => {
-      Webcam.reset();
+
+    const initializeWebcam = async () => {
+      if (webcamRef.current && canvasRef.current) {
+        const webCamElement = webcamRef.current;
+        const canvasElement = canvasRef.current;
+
+        console.log("initializing Webcam");
+
+        try {
+          webcam.current = new Webcam(webCamElement, 'user', canvasElement, null);
+          await webcam.current.start();
+          console.log("Webcam started");
+        } catch (error) {
+          console.log(error);
+        }
+
+        setWebcamInit(false);
+      }
     };
+
+    const cleanupWebcam = () => {
+      if (webcam.current) {
+        webcam.current.stop(); // Stop the webcam instance
+        webcam.current = null;
+        console.log('Camera stopped');
+      }
+    };
+
+    if (webcamInit) {
+      cleanupWebcam();
+      initializeWebcam();
+    }
+
+    //return cleanupWebcam;
   }, [webcamInit]);
 
   const captureImage = () => {
-    Webcam.snap((data_uri) => {
-      setFormData((prevState) => ({
-        ...prevState,
-        image: data_uri,
-      }));
-    });
+
+    var data_uri = webcam.current.snap();
+
+    setSnap(data_uri)
+
   };
 
 
@@ -64,8 +90,10 @@ const Login = () => {
         toast.error("Invalid Credentials.");
         setWebcamInit(true);
       } else if (isSuccess || user) {
-        const result = await getSimilarityBetweenFaces(user.image, formData.image);
+        console.log(user.image)
+        const result = await getSimilarityBetweenFaces(user.image, snap);
 
+        //alert(user.image)
         if (result < 0.5) {
           localStorage.setItem('facedetection', true);
           navigate("/dashboard");
@@ -132,13 +160,17 @@ const Login = () => {
             <div style={{ display: "flex", justifyContent: "center" }}>
               <div
                 style={{
-                  width: "320px",
-                  height: "280px",
-                  outline: "2px solid black",
+                  width: "640px",
+                  height: "400px",
                   marginBottom: "20px",
+                  paddingTop: "auto",
+                  paddingBottom: "auto",
                 }}
               >
-                <div ref={webcamRef}></div>
+                <div>
+                  <video id="camera" ref={webcamRef} style={{ outline: "solid" }}></video>
+                  <canvas id="canvas" ref={canvasRef} style={{ display: "none" }}></canvas>
+                </div>
               </div>
             </div>
           </div>
@@ -179,7 +211,7 @@ const Login = () => {
             </Link>
           </div>
         </form>
-      </section>
+      </section >
     </>
   );
 };

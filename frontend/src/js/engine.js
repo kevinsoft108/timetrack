@@ -150,8 +150,6 @@ export const getSimilarityBetweenFaces = async (referenceBuffer, queryBuffer) =>
 
         //}
 
-        const queryImg = new Image();
-        queryImg.src = queryBuffer
         descriptors.query = await faceapi.computeFaceDescriptor(queryFaceImg)
 
         const distance = faceapi.utils.round(

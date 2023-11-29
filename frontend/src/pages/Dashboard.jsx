@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Spinner from "../components/Spinner";
 import axios from "axios";
 // ---------- webcam ------------- //
-import Webcam from "webcamjs";
+import Webcam from "webcam-easy";
 
 import { getSimilarityBetweenFaces, initializeNet } from '../js/engine.js'
 
@@ -16,6 +16,8 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const imageRef = useRef(null);
   const webcamRef = useRef(null);
+  const canvasRef = useRef(null);
+  const webcam = useRef(null);
 
   const { user } = useSelector((state) => state.auth);
 
@@ -42,19 +44,36 @@ const Dashboard = () => {
   }, [user, navigate, dispatch]);
 
   useEffect(() => {
-    if (webcamRef.current) {
-      Webcam.set({
-        width: 317,
-        height: 280,
-        image_format: "jpeg",
-        jpeg_quality: 90,
-      });
-      Webcam.attach(webcamRef.current);
-    }
+    const initializeWebcam = async () => {
+      if (webcamRef.current && canvasRef.current) {
+        const webCamElement = webcamRef.current;
+        const canvasElement = canvasRef.current;
 
-    return () => {
-      Webcam.reset();
+        console.log("initializing Webcam");
+
+        try {
+          webcam.current = new Webcam(webCamElement, 'user', canvasElement, null);
+          await webcam.current.start();
+          console.log("Webcam started");
+        } catch (error) {
+          console.log(error);
+        }
+
+      }
     };
+
+    const cleanupWebcam = () => {
+      if (webcam.current) {
+        webcam.current.stop(); // Stop the webcam instance
+        webcam.current = null;
+        console.log('Camera stopped');
+      }
+    };
+
+    cleanupWebcam();
+    initializeWebcam();
+
+    //return cleanupWebcam;
   }, []);
 
   useEffect(() => {
@@ -72,18 +91,28 @@ const Dashboard = () => {
     if (mounted) {
       const captureImage = () => {
         return new Promise(async (resolve, reject) => {
-          Webcam.snap(async (data_uri) => {
-            imageRef.current.src = data_uri;
-            const image = data_uri;
+          var data_uri = webcam.current.snap();
 
-            try {
-              const result = await getSimilarityBetweenFaces(user.image, image);
-              console.log("similarity: ", result.toString());
-              resolve(result);
-            } catch (error) {
-              reject(error);
-            }
-          });
+          try {
+            const result = await getSimilarityBetweenFaces(user.image, data_uri);
+            console.log("similarity: ", result.toString());
+            resolve(result);
+          } catch (error) {
+            reject(error);
+          }
+
+          // Webcam.snap(async (data_uri) => {
+          //   imageRef.current.src = data_uri;
+          //   const image = data_uri;
+
+          //   try {
+          //     const result = await getSimilarityBetweenFaces(user.image, image);
+          //     console.log("similarity: ", result.toString());
+          //     resolve(result);
+          //   } catch (error) {
+          //     reject(error);
+          //   }
+          // });
         });
       };
 
@@ -196,26 +225,7 @@ const Dashboard = () => {
         {user && <p>{user.name}</p>}
       </section>
 
-      {/* <section className="form" style={{ display: "flex", justifyContent: "center" }}>
-        <div
-          className="form-group"
-          style={{
-            width: "320px",
-            height: "280px",
-            outline: "2px solid black",
-            marginBottom: "20px",
-          }}
-        >
-          <div style={{ height: '240px', width: '320px', marginTop: '20px' }}>
-            <img
-              src={user.image}
-              style={{ height: "240px", width: "320px" }}
-            ></img>
-          </div>
-        </div>
-      </section> */}
-
-      <section className="form" style={{ display: 'none' }}>
+      <section className="form" style={{ visibility: 'hidden' }}>
         <div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <div
@@ -224,28 +234,13 @@ const Dashboard = () => {
                 height: "280px",
                 outline: "2px solid black",
                 marginBottom: "20px",
-                display: "none",
+                // display: "none",
               }}
             >
-              <div ref={webcamRef}></div>
+              <video id="camera" ref={webcamRef} ></video>
+              <canvas id="canvas" ref={canvasRef} style={{ display: "none" }}></canvas>
             </div>
-            <div
-              className="form-group"
-              style={{
-                width: "320px",
-                height: "280px",
-                outline: "2px solid black",
-                marginBottom: "20px",
-              }}
-            >
-              <div style={{ height: '240px', width: '320px', marginTop: '20px' }}>
-                <img
-                  ref={imageRef}
-                  // alt="Please Click Capture Button"
-                  style={{ height: "240px", width: "320px" }}
-                ></img>
-              </div>
-            </div>
+
           </div>
         </div>
       </section>

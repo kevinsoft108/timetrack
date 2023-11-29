@@ -68,9 +68,9 @@ dependencies:
   sweetalert:
     specifier: ^2.1.2
     version: 2.1.2
-  webcamjs:
-    specifier: ^1.0.26
-    version: 1.0.26
+  webcam-easy:
+    specifier: ^1.1.1
+    version: 1.1.1
 
 devDependencies:
   '@testing-library/jest-dom':
@@ -11855,6 +11855,12 @@ packages:
     hasBin: true
     dev: false
 
+  /uglify-js@3.17.4:
+    resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}
+    engines: {node: '>=0.8.0'}
+    hasBin: true
+    dev: false
+
   /unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
     dependencies:
@@ -12065,8 +12071,10 @@ packages:
       minimalistic-assert: 1.0.1
     dev: false
 
-  /webcamjs@1.0.26:
-    resolution: {integrity: sha512-ruUdzb7MV4QUxO1TfIdAjzeEhB8+Y1GY6HhQTytij+rB98972XZ+mbMUGrjBvWRb975loKjqgELdYjVNMNRfFQ==}
+  /webcam-easy@1.1.1:
+    resolution: {integrity: sha512-L2/tXBpWCdZAXI7s5SWB0BICiDATih9OHIhIZpkCWJX4lENF0UTsnqztAb+c0XPy63HoiLUpCHRhdMFaospzGw==}
+    dependencies:
+      uglify-js: 3.17.4
     dev: false
 
   /webidl-conversions@4.0.2:

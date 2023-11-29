@@ -1,13 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaUser } from "react-icons/fa";
 import { register, reset } from "../features/auth/authSlice";
 import Spinner from "../components/Spinner";
-
-// ---------- webcam ------------- //
-import Webcam from "webcamjs";
+import Webcam from "webcam-easy";
 
 import { cropFaceRegion, initializeNet } from "../js/engine";
 
@@ -17,52 +15,72 @@ const Register = () => {
     email: "",
     password: "",
     password2: "",
-    image: "",
   });
+
+  const [snap, setSnap] = useState("");
+
   const imageRef = useRef(null);
   const webcamRef = useRef(null);
+  const canvasRef = useRef(null);
+  const webcam = useRef(null);
 
-  const [webcamInit, setWebcamInit] = useState(true)
+  const [webcamInit, setWebcamInit] = useState(true);
 
   useEffect(() => {
-    if (webcamRef.current) {
-      Webcam.set({
-        width: 317,
-        height: 280,
-        image_format: "jpeg",
-        jpeg_quality: 90,
-      });
-      Webcam.attach(webcamRef.current);
-      setWebcamInit(false)
-    }
-    return () => {
-      Webcam.reset();
+    const initializeWebcam = async () => {
+      if (webcamRef.current && canvasRef.current) {
+        const webCamElement = webcamRef.current;
+        const canvasElement = canvasRef.current;
+
+        console.log("initializing Webcam");
+
+        try {
+          webcam.current = new Webcam(webCamElement, 'user', canvasElement, null);
+          await webcam.current.start();
+          console.log("Webcam started");
+        } catch (error) {
+          console.log(error);
+        }
+
+        setWebcamInit(false);
+      }
     };
+
+    const cleanupWebcam = () => {
+      if (webcam.current) {
+        webcam.current.stop(); // Stop the webcam instance
+        webcam.current = null;
+        console.log('Camera stopped');
+      }
+    };
+
+    if (webcamInit) {
+      cleanupWebcam();
+      initializeWebcam();
+    }
+
+    //return cleanupWebcam;
   }, [webcamInit]);
 
-  // To Initialize face-api Net when landing page is loading
   useEffect(() => {
     const initialize = async () => {
-      await initializeNet()
-    }
+      await initializeNet();
+    };
 
-    initialize()
-  }, [])
+    initialize();
+  }, []);
 
-  // capture image from webcam and send to server for authentication
-  // Capture Button
   const captureImage = () => {
-    Webcam.snap((data_uri) => {
-      // console.log(data_uri);
-      imageRef.current.src = data_uri;
-      setFormData((prevState) => ({
-        ...prevState,
-        image: data_uri,
-      }));
-    });
+
+    var data_uri = webcam.current.snap();
+    imageRef.current.src = data_uri;
+
+
+    setSnap(data_uri)
+
   };
 
-  const { name, email, password, password2, image } = formData;
+  const { name, email, password, password2 } = formData;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -74,9 +92,9 @@ const Register = () => {
   useEffect(() => {
     if (isError) {
       toast.error(message);
-      setWebcamInit(true)
+      setWebcamInit(true);
     }
-    console.log(isSuccess, '--------', user);
+
     if (isSuccess && user) {
       navigate("/");
     }
@@ -94,35 +112,28 @@ const Register = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-
-    if (image) {
-      const faceBuffer = await cropFaceRegion(image)
-      //console.log(faceBuffer, "---------------faceBuffer")
-      const result = await cropFaceRegion(image)
+    if (snap) {
+      const faceBuffer = await cropFaceRegion(snap);
+      const result = await cropFaceRegion(snap);
 
       if (password !== password2) {
         toast.error("Passwords do not match");
-      } else if (result.state == 0) {
-        toast.error("Can not detect face in captured image");
-      } else if (result.state == 2) {
-        toast.error("more than 2 faces detected in captured image");
+      } else if (result.state === 0) {
+        toast.error("Cannot detect face in captured image");
+      } else if (result.state === 2) {
+        toast.error("More than 2 faces detected in captured image");
       } else {
-        // setFormData((prevState) => ({
-        //   ...prevState,
-        //   image: faceBuffer,
-        // }));
-
         const userData = {
           name,
           email,
           password,
-          image: result.face, // Include the captured image data URI in the userData
+          image: result.face,
         };
 
         dispatch(register(userData));
       }
     } else {
-      toast.error("You have to take a picture")
+      toast.error("You have to take a picture");
     }
   };
 
@@ -144,19 +155,20 @@ const Register = () => {
             <div
               style={{
                 width: "320px",
-                height: "280px",
+                height: "240px",
                 outline: "2px solid black",
                 marginBottom: "20px",
               }}
             >
-              <div ref={webcamRef}></div>
+              <video id="camera" width="320" height="240" ref={webcamRef}></video>
+              <canvas id="canvas" ref={canvasRef} style={{ display: "none" }}></canvas>
             </div>
             <div
               className="form-group"
               style={{
                 minWidth: "320px",
                 width: "320px",
-                height: "280px",
+                height: "240px",
                 outline: "2px solid black",
                 marginBottom: "20px",
               }}
@@ -164,8 +176,8 @@ const Register = () => {
               <div>
                 <img
                   ref={imageRef}
-                  alt="Plase Click Capture Button"
-                  style={{ height: "240px", width: "320px", marginTop: "20px" }}
+                  alt="Please Click Capture Button"
+                  style={{ height: "240px", width: "320px" }}
                 ></img>
               </div>
             </div>
@@ -215,15 +227,15 @@ const Register = () => {
             />
           </div>
           <div className="form-group"></div>
+          <div style={{ display: "flex", justifyContent: "space-around" }}>
+            <button type="button" onClick={captureImage} className="btn btn-block">
+              Capture
+            </button>
+            <button type="submit" className="btn btn-block">
+              Register
+            </button>
+          </div>
         </form>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <button onClick={captureImage} className="btn btn-block">
-            Capture
-          </button>
-          <button type="submit" onClick={onSubmit} className="btn btn-block">
-            Register
-          </button>
-        </div>
       </section>
     </>
   );

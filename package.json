@@ -5,5 +5,6 @@
     "frontend": "cd frontend && npm start"
   },
   "dependencies": {
+    "webcam-easy": "^1.1.1"
   }
 }
