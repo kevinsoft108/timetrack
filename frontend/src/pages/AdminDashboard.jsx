@@ -80,6 +80,7 @@ const AdminDashboard = ({ socket }) => {
   }
   const handleTrackOpen = (subdata) => {
     navigate(`/admin/timetrack?_id=${subdata._id}`);
+    // navigate(`/admin/activitylog?_id=${subdata._id}`);
   }
   const pageChange = (e, page) => {
     setPage(page);

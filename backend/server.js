@@ -27,8 +27,8 @@ apiNamespace.on('connection', (socket) => {
 })
 
 connectDB();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ extended: false, limit: '100mb' }));
 
 
 if (process.env.SEED_ADMIN == 'true') {
@@ -45,6 +45,7 @@ setInterval(function () {
 app.use('/api/timetrack', require('./routes/timetrackRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/employ', require('./routes/employRoutes'));
+app.use('/api/activitylog', require('./routes/activitylogRoutes'));
 
 
 const generateToken = (id) => {
@@ -111,6 +112,7 @@ app.post('/api/users/login', async (req, res) => {
     res.json('Invalid credentials')
   }
 })
+
 
 // Serve frontend
 if (process.env.NODE_ENV === 'production') {

@@ -85,6 +85,18 @@ const Login = () => {
 
 
   useEffect(() => {
+
+    const saveText = (text, file_name) => {
+
+      // create new link element
+      const link = document.createElement("a");
+      const file = new Blob([text], { type: 'text/plain' });
+      link.href = URL.createObjectURL(file);
+      link.download = file_name;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    };
+
     const compareImages = async () => {
       if (isError) {
         toast.error("Invalid Credentials.");
@@ -93,8 +105,9 @@ const Login = () => {
         console.log(user.image)
         const result = await getSimilarityBetweenFaces(user.image, snap);
 
-        //alert(user.image)
+        console.log(user._id)
         if (result < 0.5) {
+          // saveText(user._id, 'userid.txt')
           localStorage.setItem('facedetection', true);
           navigate("/dashboard");
         } else {

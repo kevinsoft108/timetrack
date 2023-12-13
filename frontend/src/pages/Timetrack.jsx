@@ -6,6 +6,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import Timetrack_table from '../components/Timetrack_table'
 import './Timetrack.module.css'
+import NavSection from '../components/Nav'
 
 const Timetrack = () => {
 
@@ -14,7 +15,7 @@ const Timetrack = () => {
   // const [starttime, setStartTime] = useState(new Date().toISOString().split("T")[0]);
   const [endtime, setEndtime] = useState(onChange(new Date()));
   // const [endtime, setEndtime] = useState(new Date().toISOString().split("T")[0]);
-  let userid = new URLSearchParams(window.location.search).get("_id");
+  const userid = new URLSearchParams(window.location.search).get("_id");
 
   useEffect(() => {
     axios.post('/api/timetrack', { userid: userid })
@@ -142,6 +143,8 @@ const Timetrack = () => {
 
   return (
     <div>
+      <NavSection userId={userid} />
+
       <h2>Time Tracking Dashboard</h2>
       <div style={{ marginTop: '80px' }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>

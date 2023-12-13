@@ -12,6 +12,7 @@ import UserLogin from './pages/userLogin';
 import UserRegister from './pages/userRegister';
 import Dashboard from './pages/Dashboard';
 import io from 'socket.io-client'; // Import the socket.io-client library
+import Activitylog from './pages/Activitylog';
 
 const socket = io.connect(process.env.REACT_APP_SOCKET_URL); // Connect to the socket.io server on the "/api" path
 
@@ -26,6 +27,7 @@ function App() {
           {admin ? <AdminHeader /> : <UserHeader />}
           <Routes>
             <Route path='/admin/timetrack' element={<Timetrack />} />
+            <Route path='/admin/activitylog' element={<Activitylog />} />
             <Route path='/admin/login' element={<Login />} />
             <Route path='/admin/register' element={<Register />} />
             <Route path='/admin' element={<AdminDashboard socket={socket} />} />

@@ -90,9 +90,9 @@ const Timetrack_table = ({ timedata }) => {
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell align="center" style={{ zIndex: 1, position: 'sticky', left: 0, backgroundColor: "#ddd", width: '50px' }}>Date</TableCell>
+                <TableCell align="center" style={{ zIndex: 1, position: 'sticky', left: 0, backgroundColor: "#f0f0f0", width: '50px' }}>Date</TableCell>
                 <TableCell align="center" stype={{ width: '50px', }}>Time</TableCell>
-                <TableCell align="center" style={{ zIndex: 1, position: 'sticky', left: 0, backgroundColor: "#ddd", }}>
+                <TableCell align="center" style={{ zIndex: 1, position: 'sticky', left: 0, backgroundColor: "#f0f0f0", }}>
                   <HSBar height={0} showTextUp data={timelineData}></HSBar>
                 </TableCell>
               </TableRow>
@@ -101,7 +101,7 @@ const Timetrack_table = ({ timedata }) => {
               {timedata && timedata.map((timetrack, index) => {
                 return (
                   <TableRow key={index}>
-                    <TableCell align="center" component="th" scope="row" style={{ zIndex: 1, position: 'sticky', left: 0, backgroundColor: "#ddd", }}>
+                    <TableCell align="center" component="th" scope="row" style={{ zIndex: 1, position: 'sticky', left: 0, backgroundColor: "#f0f0f0", }}>
                       {timetrack[0]['data']['time']}
                     </TableCell>
                     <TableCell align="center" component="th" scope="row">
