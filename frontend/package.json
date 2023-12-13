@@ -9,7 +9,12 @@
     "appId": "timetrack",
     "mac": {
       "category": "face detection",
-      "target": "mas"
+      "target": "mas",
+      "hardenedRuntime": true,
+      "entitlements": "Entitlements.plist",
+      "extendInfo": {
+            "NSCameraUsageDescription": "Please give us access to your camera"
+        }
     },
     "win": {
       "target": "nsis"
