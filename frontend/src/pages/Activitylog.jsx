@@ -27,15 +27,18 @@ const Activitylog = () => {
           // Iterate over the data
           data.forEach((item) => {
             const detectStart = item.start_time;
+            // console.log(detectStart)
 
             // Extract the date from the "detect_start" string
             const date = detectStart.split("T")[0];
 
             if (date >= start && date <= end) {
+              // console.log('pushed to newArray')
               newArray.push(item)
             }
           });
 
+          // console.log('data length', newArray.length)
           return newArray;
         }
         setActivitylog(convertArr(starttime, endtime));

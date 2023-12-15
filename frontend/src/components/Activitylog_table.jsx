@@ -3,12 +3,45 @@ import {
   TableBody, Table,
   TableContainer, TableHead, TableRow, TableCell
 } from '@material-ui/core';
+import { Pagination } from '@material-ui/lab';
 import { FaVideo } from 'react-icons/fa'
 
 const Activitylog_table = ({ logData }) => {
+  const per_page = 10
 
-  const [showMessage, setShowMessage] = useState(false);
-  const [result, setResult] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(0);
+  const [logs, setLogs] = useState(null);
+
+  // console.log(logData)
+
+  useEffect(() => {
+    getUser();
+  }, [page, pages])
+
+  useEffect(() => {
+    // console.log('seting page')
+    if (logData != null) {
+      const pages = Math.ceil(logData.length / per_page);
+      // console.log("logData.length", logData.length);
+      setPages(pages)
+    }
+
+  }, [logData])
+
+  const getUser = () => {
+    if (logData != null) {
+      const start_index = Math.max((page - 1) * per_page, 0)
+      const end_index = Math.min(page * per_page, logData.length)
+
+      setLogs(logData.slice(start_index, end_index))
+    }
+
+  }
+
+  const pageChange = (e, page) => {
+    setPage(page);
+  }
 
   return (
     <>
@@ -26,7 +59,7 @@ const Activitylog_table = ({ logData }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {logData && logData.map((activitylog, index) => {
+              {logs && logs.map((activitylog, index) => {
                 return (
                   <TableRow key={index}>
                     <TableCell align="center" component="th" scope="row" width="15%" style={{ backgroundColor: "#f0f0f0" }}
@@ -90,6 +123,7 @@ const Activitylog_table = ({ logData }) => {
             </TableBody>
           </Table>
           <br />
+          <Pagination count={pages} page={page} onChange={pageChange} color="primary" />
         </TableContainer>
       </div>
     </>
