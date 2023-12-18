@@ -102,7 +102,7 @@ const Activitylog_table = ({ logData }) => {
 
                     </TableCell>
                     <TableCell width="15%" align="center" component="th" scope="row">
-                      Computer
+                      {activitylog['computer_name']}
                     </TableCell>
                     <TableCell width="15%" align="center" component="th" scope="row" style={{ backgroundColor: "#f0f0f0" }}>
                       {activitylog['process_url']}

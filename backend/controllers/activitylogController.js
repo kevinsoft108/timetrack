@@ -16,18 +16,19 @@ const getActivityLog = asyncHandler(async (req, res) => {
 })
 
 const setActivityLog = asyncHandler(async (req, res) => {
-  const { user_id, start_time, screen_recording, keystrokes, process_url, duration, app_webpage } = req.body;
+  const { user_id, start_time, screen_recording, computer_name, keystrokes, process_url, duration, app_webpage } = req.body;
 
   console.log("user_id", user_id)
 
 
   // console.log(screen_recording);
-  if (user_id) {
+  if (user_id && screen_recording) {
 
     const newLog = await ActivityLog.create({
       userid: user_id,
       start_time: formatDateString(new Date()),
       screen_recording: screen_recording,
+      computer_name: computer_name,
       keystrokes: keystrokes,
       process_url: process_url,
       duration: duration,

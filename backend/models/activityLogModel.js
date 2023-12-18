@@ -13,6 +13,10 @@ const activityLogModel = new mongoose.Schema({
         type: String,
         required: false
     },
+    computer_name: {
+        type: String,
+        required: false
+    },
     keystrokes: {
         type: String,
         required: false

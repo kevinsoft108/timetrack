@@ -3,6 +3,7 @@ const router = express.Router()
 
 const Employ = require('../models/employModel')
 const TimeTrack = require('../models/timetrackModel')
+const ActivityLog = require('../models/activityLogModel')
 
 router.get("/get-employ", (req, res) => {
   try {
@@ -173,6 +174,7 @@ router.post("/delete-employ", async (req, res) => {
       const deletedUser = await Employ.findByIdAndRemove(req.body.id);
       if (deletedUser) {
         await TimeTrack.deleteMany({ userid: req.body.id });
+        await ActivityLog.deleteMany({ userid: req.body.id });
         return res.status(200).json({ title: 'User deleted successfully', status: true, deletedUser });
       } else {
         return res.status(404).json({ errorMessage: 'User not found', status: false });
