@@ -17,6 +17,20 @@ app.use(cors());
 const adminSeed = require('./seeds/adminSeed')
 const formatDateString = require('./config/formatDate')
 
+const winston = require('winston');
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  defaultMeta: { service: 'user-service' },
+  transports: [
+    //
+    // - Write all logs with importance level of `error` or less to `error.log`
+    // - Write all logs with importance level of `info` or less to `combined.log`
+    //
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' }),
+  ],
+});
 
 const socketIO = require('socket.io')(server, {
   cors: {
@@ -30,17 +44,20 @@ let cnt = 0
 
 apiNamespace.on('connection', (socket) => {
   cnt = 0
-  console.log(`⚡: ${socket.id} user just connected!`);
+  // console.log(`⚡: ${socket.id} user just connected!`);
+  logger.info(`⚡: ${socket.id} user just connected!`)
 
   socket.on('response', (data) => {
-    console.log(`Received activity response ${data}`)
+    // console.log(`Received activity response ${data}`)
+    logger.info(`Received activity response ${data}`)
 
-    // activityTrackSocket.emit('captureFlag', data)
     apiNamespace.emit('captureFlag', data)
   })
 
   socket.on('screen', (data) => {
-    console.log(`live screen captured ${cnt}`);
+    // console.log(`live screen captured ${cnt}`);
+    logger.info(`live screen captured ${cnt}`)
+
     cnt += 1
 
     apiNamespace.emit('liveCapture', data);
