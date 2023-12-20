@@ -26,30 +26,42 @@ const socketIO = require('socket.io')(server, {
 
 const apiNamespace = socketIO.of('/api');
 
+let cnt = 0
+
 apiNamespace.on('connection', (socket) => {
+  cnt = 0
   console.log(`⚡: ${socket.id} user just connected!`);
 
   socket.on('response', (data) => {
     console.log(`Received activity response ${data}`)
 
-    activityTrackSocket.emit('captureFlag', data)
+    // activityTrackSocket.emit('captureFlag', data)
+    apiNamespace.emit('captureFlag', data)
   })
-})
-
-let screen_recording = ""
-// for testing communciation with python client
-const activityTrackSocket = socketIO.sockets;
-activityTrackSocket.on('connection', (socket) => {
-  console.log('activtiy track socket is connected!');
 
   socket.on('screen', (data) => {
-    console.log("live screen captured");
-    screen_recording = data
+    console.log(`live screen captured ${cnt}`);
+    cnt += 1
 
-    apiNamespace.emit('liveCapture', screen_recording);
+    apiNamespace.emit('liveCapture', data);
 
   });
 })
+
+// let screen_recording = ""
+// // for testing communciation with python client
+// const activityTrackSocket = socketIO.sockets;
+// activityTrackSocket.on('connection', (socket) => {
+//   console.log('activtiy track socket is connected!');
+
+//   socket.on('screen', (data) => {
+//     console.log("live screen captured");
+//     screen_recording = data
+
+//     apiNamespace.emit('liveCapture', screen_recording);
+
+//   });
+// })
 
 connectDB();
 app.use(express.json({ limit: '100mb' }));

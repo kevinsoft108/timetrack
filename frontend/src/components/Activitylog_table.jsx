@@ -34,7 +34,7 @@ const Activitylog_table = ({ logData, socket }) => {
 
   useEffect(() => {
     socket.on('liveCapture', data => {
-      // console.log(data);
+      console.log("live screen captured");
       imageRef.current = data
 
       // Clean up the event listener when the component unmounts
@@ -46,14 +46,27 @@ const Activitylog_table = ({ logData, socket }) => {
   }, []);
 
   useEffect(() => {
-    if (recording) {
-      console.log('live capture started')
-      socket.emit('response', true);
-    } else {
-      console.log('live capture stopped')
-      socket.emit('response', false);
-      imageRef.current = null
+    if (logData) {
+      const log = logData[0]
+      const user_id = log['userid']
+      if (recording) {
+        console.log('live capture started')
+        const res = JSON.stringify({
+          userid: user_id,
+          flag: true
+        });
+        socket.emit('response', res);
+      } else {
+        console.log('live capture stopped')
+        const res = JSON.stringify({
+          userid: user_id,
+          flag: false
+        });
+        socket.emit('response', res);
+        imageRef.current = null
+      }
     }
+
   }, [recording])
 
   const getUser = () => {
@@ -150,11 +163,12 @@ const Activitylog_table = ({ logData, socket }) => {
                              `);
                             newDocument.close();
 
+
                             // Periodically check for changes in imageRef and update the image src
                             const intervalId = setInterval(() => {
                               updateImageSrc();
 
-                            }, 1000); // Check every 1 second
+                            }, 500); // Check every 1 second
 
 
                             // Listen for the beforeunload event on the newWindow
