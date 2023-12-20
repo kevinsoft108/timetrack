@@ -10,20 +10,45 @@ const server = require('http').createServer(app);
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const Employ = require('./models/employModel');
-const io = require('socket.io')(server);
+// const io = require('socket.io')(server);
 const cors = require('cors');
 const callBack = require('./middleware/callback')
 app.use(cors());
 const adminSeed = require('./seeds/adminSeed')
 const formatDateString = require('./config/formatDate')
+
+
 const socketIO = require('socket.io')(server, {
   cors: {
     origin: '*'
   }
 });
+
 const apiNamespace = socketIO.of('/api');
+
 apiNamespace.on('connection', (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
+
+  socket.on('response', (data) => {
+    console.log(`Received activity response ${data}`)
+
+    activityTrackSocket.emit('captureFlag', data)
+  })
+})
+
+let screen_recording = ""
+// for testing communciation with python client
+const activityTrackSocket = socketIO.sockets;
+activityTrackSocket.on('connection', (socket) => {
+  console.log('activtiy track socket is connected!');
+
+  socket.on('screen', (data) => {
+    console.log("live screen captured");
+    screen_recording = data
+
+    apiNamespace.emit('liveCapture', screen_recording);
+
+  });
 })
 
 connectDB();

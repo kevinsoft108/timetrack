@@ -22,7 +22,7 @@ const setActivityLog = asyncHandler(async (req, res) => {
 
 
   // console.log(screen_recording);
-  if (user_id && screen_recording) {
+  if (user_id) {
 
     const newLog = await ActivityLog.create({
       userid: user_id,

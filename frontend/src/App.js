@@ -27,7 +27,7 @@ function App() {
           {admin ? <AdminHeader /> : <UserHeader />}
           <Routes>
             <Route path='/admin/timetrack' element={<Timetrack />} />
-            <Route path='/admin/activitylog' element={<Activitylog />} />
+            <Route path='/admin/activitylog' element={<Activitylog socket={socket} />} />
             <Route path='/admin/login' element={<Login />} />
             <Route path='/admin/register' element={<Register />} />
             <Route path='/admin' element={<AdminDashboard socket={socket} />} />

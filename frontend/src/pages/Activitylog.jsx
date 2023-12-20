@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import Activitylog_table from '../components/Activitylog_table'
 import NabSection from '../components/Nav'
 
-const Activitylog = () => {
+const Activitylog = ({ socket }) => {
 
   const [activitylog, setActivitylog] = useState(null);
   const [starttime, setStartTime] = useState(onChange(new Date()));
@@ -77,7 +77,7 @@ const Activitylog = () => {
           />
         </LocalizationProvider>
       </div>
-      <Activitylog_table logData={activitylog} />
+      <Activitylog_table logData={activitylog} socket={socket} />
     </div>
   );
 }
