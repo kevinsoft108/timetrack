@@ -39,6 +39,7 @@ const Activitylog = ({ socket }) => {
           });
 
           // console.log('data length', newArray.length)
+          newArray.reverse();
           return newArray;
         }
         setActivitylog(convertArr(starttime, endtime));
