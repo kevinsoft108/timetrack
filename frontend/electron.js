@@ -3,7 +3,7 @@ const { execFile } = require('child_process');
 // const path = require('path');
 // const url =require('url');
 const isDev = true; // require('electron-is-dev');
-const isAdmin = false;
+const isAdmin = true;
 const START_URL = isAdmin ? 'http://144.126.254.71/admin' : 'https://144.126.254.71';
 app.commandLine.appendSwitch('ignore-certificate-errors')
 // const camera = systemPreferences.askForMediaAccess('camera');
