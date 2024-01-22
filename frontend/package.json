@@ -13,8 +13,8 @@
       "hardenedRuntime": true,
       "entitlements": "Entitlements.plist",
       "extendInfo": {
-            "NSCameraUsageDescription": "Please give us access to your camera"
-        }
+        "NSCameraUsageDescription": "Please give us access to your camera"
+      }
     },
     "win": {
       "target": "nsis"
@@ -30,6 +30,7 @@
     "@mui/x-date-pickers": "^6.17.0",
     "@reduxjs/toolkit": "^1.7.2",
     "axios": "^0.25.0",
+    "child_process": "^1.0.2",
     "dayjs": "^1.11.10",
     "face-api.js": "^0.22.2",
     "http-proxy-middleware": "^2.0.6",

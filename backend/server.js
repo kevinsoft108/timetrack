@@ -167,6 +167,22 @@ app.post('/api/users/login', async (req, res) => {
   }
 })
 
+app.post('/api/users/login_2', async (req, res) => {
+  const { email } = req.body
+
+  // Check for user email
+  const user = await Employ.findOne({ email })
+  if (user) {
+    res.json({
+      _id: user._id
+    });
+  } else {
+    res.status(400)
+    // throw new Error('Invalid credentials')
+    res.json('Invalid credentials')
+  }
+  
+})
 
 // Serve frontend
 if (process.env.NODE_ENV === 'production') {

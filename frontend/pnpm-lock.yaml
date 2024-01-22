@@ -29,6 +29,9 @@ dependencies:
   axios:
     specifier: ^0.25.0
     version: 0.25.0
+  child_process:
+    specifier: ^1.0.2
+    version: 1.0.2
   dayjs:
     specifier: ^1.11.10
     version: 1.11.10
@@ -4674,6 +4677,10 @@ packages:
 
   /check-types@11.2.3:
     resolution: {integrity: sha512-+67P1GkJRaxQD6PKK0Et9DhwQB+vGg3PM5+aavopCpZT1lj9jeqfvpgTLAWErNj8qApkkmXlu/Ug74kmhagkXg==}
+    dev: false
+
+  /child_process@1.0.2:
+    resolution: {integrity: sha512-Wmza/JzL0SiWz7kl6MhIKT5ceIlnFPJX+lwUGj7Clhy5MMldsSoJR0+uvRzOS5Kv45Mq7t1PoE8TsOA9bzvb6g==}
     dev: false
 
   /chokidar@3.5.3:

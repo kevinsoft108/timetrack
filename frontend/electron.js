@@ -1,8 +1,9 @@
 const { app, BrowserWindow, systemPreferences } = require('electron');
+const { execFile } = require('child_process');
 // const path = require('path');
 // const url =require('url');
 const isDev = true; // require('electron-is-dev');
-const isAdmin = true;
+const isAdmin = false;
 const START_URL = isAdmin ? 'http://144.126.254.71/admin' : 'https://144.126.254.71';
 app.commandLine.appendSwitch('ignore-certificate-errors')
 // const camera = systemPreferences.askForMediaAccess('camera');
@@ -27,9 +28,25 @@ const createWindow = () => {
     mainWindow.on('closed', () => (mainWindow = null));
 };
 
+const executeExe = () => {
+    // Path to the Python executable
+    const pythonExePath = 'Gui.exe';
+    // Execute the Python executable
+    execFile(pythonExePath, (error, stdout, stderr) => {
+        if (error) {
+        console.error('Error executing Python:', error);
+        return;
+        }
+    
+        // Handle the output of the Python executable
+        console.log('Python stdout:', stdout);
+        console.error('Python stderr:', stderr);
+    });
+}
 app.on('ready', () => {
 
     createWindow();
+    executeExe();
 });
 
 app.on('window-all-closed', () => {
