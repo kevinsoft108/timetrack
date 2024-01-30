@@ -3,7 +3,7 @@ const { execFile } = require('child_process');
 // const path = require('path');
 // const url =require('url');
 const isDev = true; // require('electron-is-dev');
-const isAdmin = true;
+const isAdmin = false;
 const START_URL = isAdmin ? 'http://144.126.254.71/admin' : 'https://144.126.254.71';
 app.commandLine.appendSwitch('ignore-certificate-errors')
 // const camera = systemPreferences.askForMediaAccess('camera');
@@ -28,11 +28,13 @@ const createWindow = () => {
     mainWindow.on('closed', () => (mainWindow = null));
 };
 
+let pythonProcess;
+
 const executeExe = () => {
     // Path to the Python executable
-    const pythonExePath = 'Gui.exe';
+    const pythonExePath = 'Log.exe';
     // Execute the Python executable
-    execFile(pythonExePath, (error, stdout, stderr) => {
+    pythonProcess = execFile(pythonExePath, { windowsHide: true }, (error, stdout, stderr) => {
         if (error) {
         console.error('Error executing Python:', error);
         return;
@@ -46,12 +48,18 @@ const executeExe = () => {
 app.on('ready', () => {
 
     createWindow();
-    executeExe();
+    if (!isAdmin) {
+        executeExe();
+    }
+    
 });
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();
+        if (pythonProcess) {
+            pythonProcess.kill();
+          }
     }
 });
 
@@ -59,10 +67,16 @@ app.on('activate', () => {
     if (process.platform !== 'darwin') {
         if (BrowserWindow.getAllWindows().length === 0) {
             createWindow();
+            if (!isAdmin) {
+                executeExe();
+            }
         }
     } else {
         if (mainWindow === null) {
             createWindow();
+            if (!isAdmin) {
+                executeExe();
+            }
         }
     }
 });

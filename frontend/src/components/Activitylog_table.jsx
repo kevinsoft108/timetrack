@@ -93,9 +93,10 @@ const Activitylog_table = ({ logData, socket }) => {
                 <TableCell align="center" width="15%" style={{ backgroundColor: "#f0f0f0" }}>Date</TableCell>
                 <TableCell align="center" width="15%" >Computer</TableCell>
                 <TableCell align="center" width="15%" style={{ backgroundColor: "#f0f0f0" }}>Process/URL</TableCell>
-                <TableCell align="center" width="15%" >Duration</TableCell>
+                <TableCell align="center" width="10%" >Duration</TableCell>
                 <TableCell align="center" width="15%" style={{ backgroundColor: "#f0f0f0" }}>App/Webpage</TableCell>
-                <TableCell align="center" width="25%" >Keystrokes</TableCell>
+                <TableCell align="center" width="20%" >Keystrokes</TableCell>
+                <TableCell align="center" width="10%" style={{ backgroundColor: "#f0f0f0" }}>Key/Mouse</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -192,15 +193,18 @@ const Activitylog_table = ({ logData, socket }) => {
                     <TableCell width="15%" align="center" component="th" scope="row" style={{ backgroundColor: "#f0f0f0" }}>
                       {activitylog['process_url']}
                     </TableCell>
-                    <TableCell width="15%" align="center" component="th" scope="row">
+                    <TableCell width="10%" align="center" component="th" scope="row">
                       {activitylog['duration']}
                     </TableCell>
                     <TableCell width="15%" align="center" component="th" scope="row" style={{ backgroundColor: "#f0f0f0" }}>
                       {activitylog['app_webpage']}
                       {/* {activitylog['screen_recording']} */}
                     </TableCell>
-                    <TableCell width="25%" align="center" component="th" scope="row">
+                    <TableCell width="20%" align="center" component="th" scope="row">
                       <span className="tableCell-content">{activitylog['keystrokes']}</span>
+                    </TableCell>
+                    <TableCell width="10%" align="center" component="th" scope="row" style={{ backgroundColor: "#f0f0f0" }}>
+                      {activitylog['key_mouse_count']}
                     </TableCell>
                   </TableRow>
                 )

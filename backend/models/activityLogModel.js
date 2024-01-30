@@ -21,6 +21,10 @@ const activityLogModel = new mongoose.Schema({
         type: String,
         required: false
     },
+    key_mouse_count: {
+        type: String,
+        required: false
+    },
     process_url: {
         type: String,
         required: false

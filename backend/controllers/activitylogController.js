@@ -36,7 +36,7 @@ const formatDuration = (duration) => {
 }
 
 const setActivityLog = asyncHandler(async (req, res) => {
-  const { user_id, start_time, screen_recording, computer_name, keystrokes, process_url, duration, app_webpage } = req.body;
+  const { user_id, start_time, screen_recording, computer_name, keystrokes, key_mouse_count, process_url, duration, app_webpage } = req.body;
 
   // const format_duration = formatDuration(duration)
   console.log("user_id", user_id)
@@ -51,6 +51,7 @@ const setActivityLog = asyncHandler(async (req, res) => {
       screen_recording: screen_recording,
       computer_name: computer_name,
       keystrokes: keystrokes,
+      key_mouse_count: key_mouse_count,
       process_url: process_url,
       duration: formatDuration(duration),
       app_webpage: app_webpage
